@@ -95,7 +95,7 @@ public class FuncionarioDao extends Dao {
 		return Collections.emptyList();
 	}
 	
-	public FuncionarioVo findByCodigo(Integer codigo){
+	public FuncionarioVo findByCodigo(Long codigo){
 		StringBuilder query = new StringBuilder("SELECT rowid id, nm_funcionario nome FROM funcionario ")
 								.append("WHERE rowid = ?");
 		
@@ -103,7 +103,7 @@ public class FuncionarioDao extends Dao {
 			PreparedStatement ps = con.prepareStatement(query.toString())){
 			int i = 1;
 			
-			ps.setInt(i, codigo);
+			ps.setLong(i, codigo);
 			
 			try(ResultSet rs = ps.executeQuery()){
 				FuncionarioVo vo =  null;

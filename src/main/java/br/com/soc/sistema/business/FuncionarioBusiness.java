@@ -64,19 +64,22 @@ public class FuncionarioBusiness {
 	
 	public List<FuncionarioVo> filtrarFuncionarios(FuncionarioFilter filter){
 		List<FuncionarioVo> funcionarios = new ArrayList<>();
+		String valor = filter.getValorBusca().trim();
 		
 		switch (filter.getOpcoesCombo()) {
 			case ID:
 				try {
-					Integer codigo = Integer.parseInt(filter.getValorBusca());
-					funcionarios.add(dao.findByCodigo(codigo));
+					Long codigo = Long.parseLong(valor);
+					FuncionarioVo funcionarioVo = dao.findByCodigo(codigo);
+					if (funcionarioVo != null)
+						funcionarios.add(funcionarioVo);
 				}catch (NumberFormatException e) {
 					throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
 				}
 			break;
 
 			case NOME:
-				funcionarios.addAll(dao.findAllByNome(filter.getValorBusca()));
+				funcionarios.addAll(dao.findAllByNome(valor));
 			break;
 		}
 		
@@ -85,7 +88,7 @@ public class FuncionarioBusiness {
 	
 	public FuncionarioVo buscarFuncionarioPor(String codigo) {
 		try {
-			Integer cod = Integer.parseInt(codigo);
+			Long cod = Long.parseLong(codigo);
 			return dao.findByCodigo(cod);
 		}catch (NumberFormatException e) {
 			throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);

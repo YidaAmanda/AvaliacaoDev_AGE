@@ -20,12 +20,13 @@ public class FuncionarioFilter {
 	}
 
 	public FuncionarioFilter setOpcoesCombo(String codigo) {
-		this.opcoesCombo = OpcoesComboBuscar.buscarPor(codigo);
+		this.opcoesCombo = OpcoesComboBuscar.buscarPor(codigo).orElse(null);
 		return this;
 	}	
 	
-	public boolean isNullOpcoesCombo() {
-		return this.getOpcoesCombo() == null;
+	public boolean semCriterioDeBusca() {
+	    return opcoesCombo == null
+	        || valorBusca == null || valorBusca.trim().isEmpty();
 	}
 	
 	public static FuncionarioFilter builder() {

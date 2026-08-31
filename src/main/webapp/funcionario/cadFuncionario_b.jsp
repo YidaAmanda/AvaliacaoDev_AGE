@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="UTF8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF8">
+		<meta charset="UTF-8">
 		<title><s:text name="label.titulo.pagina.consulta"/></title>
 		<link rel='stylesheet' href='webjars/bootstrap/5.1.3/css/bootstrap.min.css'>
 	</head>
@@ -11,6 +11,8 @@
 		<div class="container">
 			<div class="row mt-5 mb-2">
 				<div class="col-sm p-0">
+					<s:actionerror cssClass="alert alert-danger"/>
+					<s:actionmessage cssClass="alert alert-warning"/>
 					<s:form action="/filtrarFuncionarios.action">
 						<div class="input-group">
 							<span class="input-group-text">

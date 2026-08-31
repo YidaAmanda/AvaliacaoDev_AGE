@@ -25,10 +25,19 @@ public class FuncionarioAction extends Action {
 	}
 	
 	public String filtrar() {
-		if(filtrar.isNullOpcoesCombo())
+		if(filtrar.semCriterioDeBusca())
 			return REDIRECT;
 		
-		funcionarios = business.filtrarFuncionarios(filtrar);
+		try {
+	        funcionarios = business.filtrarFuncionarios(filtrar);
+	        
+	        if (funcionarios.isEmpty())
+	            addActionMessage("Nenhum funcionário encontrado");
+	        
+	        return SUCCESS;
+	    } catch (BusinessException e) {
+	        addActionError(e.getMessage());
+	    }
 		
 		return SUCCESS;
 	}
@@ -60,7 +69,7 @@ public class FuncionarioAction extends Action {
 		}
 		
 		if(funcionarioVo == null) {
-			addActionError("Funcionario nao encontrado");
+			//addActionError("Funcionario nao encontrado");
 			return REDIRECT;
 		}
 			

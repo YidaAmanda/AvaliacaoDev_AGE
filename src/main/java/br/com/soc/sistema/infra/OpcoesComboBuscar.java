@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import br.com.soc.sistema.exception.BusinessException;
-
 public enum OpcoesComboBuscar {
 	ID("1", "ID"), 
 	NOME("2", "NOME");
@@ -27,14 +25,8 @@ public enum OpcoesComboBuscar {
 		this.descricao = descricao;
 	}
 	
-	public static OpcoesComboBuscar buscarPor(String codigo) throws IllegalArgumentException {
-		if(codigo == null)
-			throw new IllegalArgumentException("informe um codigo valido");
-		
-		OpcoesComboBuscar opcao = getOpcao(codigo)
-				.orElseThrow(() -> new BusinessException("Codigo informado nao existe"));
-		
-		return opcao;
+	public static Optional<OpcoesComboBuscar> buscarPor(String codigo) {
+	    return getOpcao(codigo);
 	}
 	
 	private static Optional<OpcoesComboBuscar> getOpcao(String codigo){
