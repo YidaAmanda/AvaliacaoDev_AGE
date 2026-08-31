@@ -76,7 +76,23 @@ public class FuncionarioAction extends Action {
 		return INPUT;
 	}
 	
+	public String deletar() {
+		if(funcionarioVo.getRowid() == null)
+			return REDIRECT;
+		
+		try {
+			business.excluirFuncionario(funcionarioVo.getRowid());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+		}
+
+		return REDIRECT;
+	}
+	
 	public String atualizar() {
+		if(funcionarioVo.getRowid() == null)
+			return REDIRECT;
+		
 		try {
 			business.atualizarFuncionario(funcionarioVo);
 		} catch (Exception e) {

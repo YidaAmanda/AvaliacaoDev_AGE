@@ -13,6 +13,20 @@ import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioDao extends Dao {
 	
+	public void deleteFuncionario(Long codigo){
+		StringBuilder query = new StringBuilder("DELETE FROM funcionario WHERE rowid=?");
+		try(
+			Connection con = getConexao();
+			PreparedStatement  ps = con.prepareStatement(query.toString())){
+			
+			int i=1;
+			ps.setLong(i, codigo);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new TechnicalException("Falha ao excluir funcionario", e);
+		}
+	}
+	
 	public int updateFuncionario(FuncionarioVo funcionarioVo){
 		StringBuilder query = new StringBuilder("UPDATE funcionario SET nm_funcionario = ? WHERE rowid=?");
 		try(

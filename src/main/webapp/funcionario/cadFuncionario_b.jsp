@@ -60,7 +60,7 @@
 										<s:text name="label.editar"/>
 									</a>
 
-									<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmarExclusao">
+									<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmarExclusao" data-rowid="${rowid}">
 										<s:text name="label.excluir"/>
 									</a>
 								</td>
@@ -102,19 +102,38 @@
 		      	<span><s:text name="label.modal.corpo"/></span>
 		      </div>
 		      
-		      <div class="modal-footer">
-	        	<a class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
-					<s:text name="label.nao"/>
-				</a>
-	        	
-				<s:a id="excluir" class="btn btn-primary" style="width: 75px;">
-					<s:text name="label.sim"/>
-				</s:a>						
-		      </div>
+			  <div class="modal-footer">
+			      <a class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+			          <s:text name="label.nao"/>
+			      </a>
+
+			      <s:form action="deletarFuncionarios" method="post" id="formExcluir">
+			          <s:hidden name="funcionarioVo.rowid" id="rowidExcluir"/>
+			          <button type="submit" class="btn btn-primary" style="width: 75px;">
+			              <s:text name="label.sim"/>
+			          </button>
+			      </s:form>
+			  </div>
 		    </div>		    
 		  </div>
 		</div>
 		
 		<script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+		
+		<script>
+		document.addEventListener('DOMContentLoaded', function () {
+		    var modal = document.getElementById('confirmarExclusao');
+		    var inputRowid = document.getElementById('rowidExcluir');
+
+		    modal.addEventListener('show.bs.modal', function (event) {
+		        var botao = event.relatedTarget;
+		        inputRowid.value = botao.getAttribute('data-rowid');
+		    });
+
+		    modal.addEventListener('hidden.bs.modal', function () {
+		        inputRowid.value = '';
+		    });
+		});
+		</script>
 	</body>
 </html>

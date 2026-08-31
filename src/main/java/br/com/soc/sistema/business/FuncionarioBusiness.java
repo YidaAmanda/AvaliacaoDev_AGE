@@ -62,6 +62,15 @@ public class FuncionarioBusiness {
 	        throw new BusinessException("Funcionario nao encontrado para atualizacao");
 	}
 	
+	public void excluirFuncionario(String cod) {
+		try {
+			Long codigo = Long.parseLong(cod);
+			dao.deleteFuncionario(codigo);
+		}catch (Exception e) {
+			throw new BusinessException("Erro ao excluir funcionario");
+		}
+	}
+	
 	public List<FuncionarioVo> filtrarFuncionarios(FuncionarioFilter filter){
 		List<FuncionarioVo> funcionarios = new ArrayList<>();
 		String valor = filter.getValorBusca().trim();
