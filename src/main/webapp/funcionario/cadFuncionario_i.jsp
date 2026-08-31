@@ -1,16 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="UTF8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF8">
+		<meta charset="UTF-8">
 		<title><s:text name="label.titulo.pagina.cadastro"/></title>
 		<link rel='stylesheet' href='webjars/bootstrap/5.1.3/css/bootstrap.min.css'>
 	</head>
 	<body class="bg-secondary">
 
 		<div class="container">
-			<s:form action="/novoFuncionarios.action">
+			<s:form action="%{funcionarioVo.rowid == null || funcionarioVo.rowid == '' 
+			                  ? 'criarFuncionarios' : 'atualizarFuncionarios'}">
+				<s:actionerror cssClass="alert alert-danger m-3"/>
 
 				<div class="card mt-5">
 					<div class="card-header">
@@ -21,7 +23,14 @@
 							</div>
 							
 							<div class="col-sm">
-								<h5 class="card-title">Novo Funcionário</h5>
+								<h5 class="card-title">
+									<s:if test="funcionarioVo.rowid == null || funcionarioVo.rowid == ''">
+								    	Novo Funcionário
+									</s:if>
+								    <s:else>
+								        Editar Funcionário
+								    </s:else>
+								</h5>
 							</div>
 						</div>
 					</div>
@@ -51,7 +60,8 @@
 					<div class="card-footer">
 						<div class="form-row">
 							<button class="btn btn-primary col-sm-4 offset-sm-1">Salvar</button>
-							<button type="reset" class="btn btn-secondary col-sm-4 offset-sm-2">Limpar Formulario</button>
+							<s:url action="novoFuncionarios" var="limpar"/>
+							<a href="${limpar}" role="button" class="btn btn-secondary col-sm-4 offset-sm-2">Limpar Formulario</a>
 						</div>
 					</div>
 				</div>

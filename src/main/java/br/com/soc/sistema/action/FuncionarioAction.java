@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.business.FuncionarioBusiness;
 import br.com.soc.sistema.filter.FuncionarioFilter;
 import br.com.soc.sistema.infra.Action;
@@ -33,10 +34,16 @@ public class FuncionarioAction extends Action {
 	}
 	
 	public String novo() {
-		if(funcionarioVo.getNome() == null)
+		return INPUT;
+	}
+	
+	public String criar() {
+		try {
+			business.salvarFuncionario(funcionarioVo);
+		} catch (Exception e) {
+			addActionError(e.getMessage());
 			return INPUT;
-		
-		business.salvarFuncionario(funcionarioVo);
+		}
 		
 		return REDIRECT;
 	}
@@ -45,9 +52,30 @@ public class FuncionarioAction extends Action {
 		if(funcionarioVo.getRowid() == null)
 			return REDIRECT;
 		
-		funcionarioVo = business.buscarFuncionarioPor(funcionarioVo.getRowid());
+		try {
+			funcionarioVo = business.buscarFuncionarioPor(funcionarioVo.getRowid());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+			return INPUT;
+		}
 		
+		if(funcionarioVo == null) {
+			addActionError("Funcionario nao encontrado");
+			return REDIRECT;
+		}
+			
 		return INPUT;
+	}
+	
+	public String atualizar() {
+		try {
+			business.atualizarFuncionario(funcionarioVo);
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+			return INPUT;
+		}
+		
+	    return REDIRECT;
 	}
 	
 	public List<OpcoesComboBuscar> getListaOpcoesCombo(){

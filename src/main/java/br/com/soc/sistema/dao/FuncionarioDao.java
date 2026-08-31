@@ -8,9 +8,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.soc.sistema.exception.TechnicalException;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioDao extends Dao {
+	
+	public int updateFuncionario(FuncionarioVo funcionarioVo){
+		StringBuilder query = new StringBuilder("UPDATE funcionario SET nm_funcionario = ? WHERE rowid=?");
+		try(
+			Connection con = getConexao();
+			PreparedStatement  ps = con.prepareStatement(query.toString())){
+			
+			int i=1;
+			ps.setString(i++, funcionarioVo.getNome());
+			ps.setLong(i++, Long.parseLong(funcionarioVo.getRowid()));
+			return ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new TechnicalException("Falha ao editar funcionario", e);
+		}
+	}
 	
 	public void insertFuncionario(FuncionarioVo funcionarioVo){
 		StringBuilder query = new StringBuilder("INSERT INTO funcionario (nm_funcionario) values (?)");
@@ -22,7 +38,7 @@ public class FuncionarioDao extends Dao {
 			ps.setString(i++, funcionarioVo.getNome());
 			ps.executeUpdate();
 		}catch (SQLException e) {
-			e.printStackTrace();
+			throw new TechnicalException("Falha ao inserir funcionario", e);
 		}
 	}
 	
