@@ -10,25 +10,25 @@
 	<body class="bg-secondary">
 
 		<div class="container">
-			<s:form action="%{funcionarioVo.rowid == null || funcionarioVo.rowid == '' 
-			                  ? 'criarFuncionarios' : 'atualizarFuncionarios'}">
+			<s:form action="%{agendaVo.rowid == null || agendaVo.rowid == '' 
+			                  ? 'criarAgendas' : 'atualizarAgendas'}">
 				<s:actionerror cssClass="alert alert-danger m-3"/>
 
 				<div class="card mt-5">
 					<div class="card-header">
 						<div class="row">
 							<div class="col-sm-5">
-								<s:url action="todosFuncionarios" var="todos"/>
-								<a href="${todos}" class="btn btn-success" >Funcionários</a>
+								<s:url action="todosAgendas" var="todos"/>
+								<a href="${todos}" class="btn btn-success" >Agendas</a>
 							</div>
 							
 							<div class="col-sm">
 								<h5 class="card-title">
-									<s:if test="funcionarioVo.rowid == null || funcionarioVo.rowid == ''">
-								    	Novo Funcionário
+									<s:if test="agendaVo.rowid == null || agendaVo.rowid == ''">
+								    	Nova Agenda
 									</s:if>
 								    <s:else>
-								        Editar Funcionário
+								        Editar Agenda
 								    </s:else>
 								</h5>
 							</div>
@@ -42,7 +42,7 @@
 							</label>	
 
 							<div class="col-sm-2">
-								<s:textfield cssClass="form-control" id="id" name="funcionarioVo.rowid" readonly="true"/>							
+								<s:textfield cssClass="form-control" id="id" name="agendaVo.rowid" readonly="true"/>							
 							</div>	
 						</div>
 						
@@ -52,8 +52,25 @@
 							</label>	
 
 							<div class="col-sm-5">
-								<s:textfield cssClass="form-control" id="nome" name="funcionarioVo.nome"/>							
+								<s:textfield cssClass="form-control" id="nome" name="agendaVo.nome"/>							
 							</div>	
+						</div>
+						
+						<div class="row align-items-center mt-3">
+						    <label for="periodo" class="col-sm-1 col-form-label text-center">
+						        Período:
+						    </label>
+						    <div class="col-sm-5">
+						        <s:select
+						            cssClass="form-select"
+						            id="periodo"
+						            name="agendaVo.periodoDisponivel"
+						            list="listaPeriodos"
+						            listKey="%{codigo}"
+						            listValueKey="%{descricao}"
+						            headerKey=""
+						            headerValue="Escolha..." />
+						    </div>
 						</div>
 					</div>
 
@@ -61,7 +78,7 @@
 						<div class="form-row">
 							<button class="btn btn-primary col-sm-4 offset-sm-1">Salvar</button>
 							<button type="button" class="btn btn-secondary col-sm-4 offset-sm-2"
-								onclick="limparFormulario()">Limpar Formulario</button>
+							        onclick="limparFormulario()">Limpar Formulario</button>
 						</div>
 					</div>
 				</div>
@@ -72,7 +89,8 @@
 		
 		<script>
 			function limparFormulario() {
-				document.getElementById('nome').value = '';
+			    document.getElementById('nome').value = '';
+			    document.getElementById('periodo').selectedIndex = 0;
 			}
 		</script>
 	</body>

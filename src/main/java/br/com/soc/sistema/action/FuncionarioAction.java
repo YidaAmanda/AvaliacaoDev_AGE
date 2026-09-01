@@ -84,11 +84,13 @@ public class FuncionarioAction extends Action {
 			business.excluirFuncionario(funcionarioVo.getRowid());
 		} catch (Exception e) {
 			addActionError(e.getMessage());
+			funcionarios.addAll(business.trazerTodosOsFuncionarios());
+	        return SUCCESS;
 		}
 
 		return REDIRECT;
 	}
-	
+
 	public String atualizar() {
 		if(funcionarioVo.getRowid() == null)
 			return REDIRECT;
