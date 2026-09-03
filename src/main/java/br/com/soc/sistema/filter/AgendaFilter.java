@@ -1,31 +1,51 @@
 package br.com.soc.sistema.filter;
 
-import br.com.soc.sistema.infra.OpcoesComboBuscar;
-
 public class AgendaFilter {
-	private OpcoesComboBuscar opcoesCombo;
-	private String valorBusca;
 
-	public String getValorBusca() {
-		return valorBusca;
-	}
+    public enum Criterio {
+        TODOS("Todos"),
+        CODIGO("Código"),
+        NOME("Nome"),
+        PERIODO("Período");
+    	
+        private final String descricao;
+        
+        Criterio(String descricao) {
+        	this.descricao = descricao;
+        }
+        
+        public String getCodigo() {
+        	return name();
+        }
+        
+        public String getDescricao() {
+        	return descricao;
+        }
+    }
 
-	public AgendaFilter setValorBusca(String valorBusca) {
-		this.valorBusca = valorBusca;
-		return this;
-	}
+    private Criterio criterio;
+    private String busca;
 
-	public OpcoesComboBuscar getOpcoesCombo() {
-		return opcoesCombo;
-	}
+    public Criterio getCriterio() {
+    	return criterio;
+    }
+    
+    public void setCriterio(Criterio criterio) {
+    	this.criterio = criterio;
+    }
 
-	public AgendaFilter setOpcoesCombo(String codigo) {
-		this.opcoesCombo = OpcoesComboBuscar.buscarPor(codigo).orElse(null);
-		return this;
-	}	
-	
-	public boolean semCriterioDeBusca() {
-	    return opcoesCombo == null
-	        || valorBusca == null || valorBusca.trim().isEmpty();
-	}
+    public String getBusca() {
+    	return busca;
+    }
+    
+    public void setBusca(String busca) {
+    	this.busca = busca;
+    }
+
+    public boolean semCriterioDeBusca() {
+        if (criterio == null) return true;
+        if (criterio == Criterio.TODOS) return false;
+        
+        return busca == null || busca.trim().isEmpty();
+    }
 }

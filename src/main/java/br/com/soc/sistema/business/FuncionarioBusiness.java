@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.soc.sistema.dao.FuncionarioDao;
 import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.filter.FuncionarioFilter;
+import br.com.soc.sistema.vo.AgendaVo;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioBusiness {
@@ -62,9 +63,8 @@ public class FuncionarioBusiness {
 	        throw new BusinessException("Funcionario nao encontrado para atualizacao");
 	}
 	
-	public void excluirFuncionario(String cod) {
+	public void excluirFuncionario(Long codigo) {
 		try {
-			Long codigo = Long.parseLong(cod);
 			dao.deleteFuncionario(codigo);
 		}catch (Exception e) {
 			throw new BusinessException("Erro ao excluir funcionario");
@@ -73,34 +73,31 @@ public class FuncionarioBusiness {
 	
 	public List<FuncionarioVo> filtrarFuncionarios(FuncionarioFilter filter){
 		List<FuncionarioVo> funcionarios = new ArrayList<>();
-		String valor = filter.getValorBusca().trim();
-		
-		switch (filter.getOpcoesCombo()) {
-			case ID:
-				try {
-					Long codigo = Long.parseLong(valor);
-					FuncionarioVo funcionarioVo = dao.findByCodigo(codigo);
-					if (funcionarioVo != null)
-						funcionarios.add(funcionarioVo);
-				}catch (NumberFormatException e) {
-					throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
-				}
-			break;
 
-			case NOME:
-				funcionarios.addAll(dao.findAllByNome(valor));
-			break;
+	    switch (filter.getCriterio()) {
+	        case TODOS:
+	            funcionarios.addAll(dao.findAllFuncionarios());
+	            break;
+
+	        case CODIGO:
+	            try {
+	                Long codigo = Long.parseLong(filter.getBusca().trim());
+	                FuncionarioVo vo = dao.findByCodigo(codigo);
+	                if (vo != null) funcionarios.add(vo);
+	            } catch (NumberFormatException e) {
+	                throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
+	            }
+	            break;
+
+	        case NOME:
+	            funcionarios.addAll(dao.findAllByNome(filter.getBusca().trim()));
+	            break;
 		}
 		
 		return funcionarios;
 	}
 	
-	public FuncionarioVo buscarFuncionarioPor(String codigo) {
-		try {
-			Long cod = Long.parseLong(codigo);
-			return dao.findByCodigo(cod);
-		}catch (NumberFormatException e) {
-			throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
-		}
+	public FuncionarioVo buscarFuncionarioPor(Long codigo) {
+		return dao.findByCodigo(codigo);
 	}
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.business.FuncionarioBusiness;
+import br.com.soc.sistema.filter.AgendaFilter;
 import br.com.soc.sistema.filter.FuncionarioFilter;
 import br.com.soc.sistema.infra.Action;
-import br.com.soc.sistema.infra.OpcoesComboBuscar;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioAction extends Action {
@@ -105,8 +105,8 @@ public class FuncionarioAction extends Action {
 	    return REDIRECT;
 	}
 	
-	public List<OpcoesComboBuscar> getListaOpcoesCombo(){
-		return Arrays.asList(OpcoesComboBuscar.values());
+	public List<FuncionarioFilter.Criterio> getListaCriterios() {
+	    return Arrays.asList(FuncionarioFilter.Criterio.values());
 	}
 	
 	public List<FuncionarioVo> getFuncionarios() {

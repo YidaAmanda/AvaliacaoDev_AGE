@@ -10,8 +10,7 @@
 	<body class="bg-secondary">
 
 		<div class="container">
-			<s:form action="%{agendaVo.rowid == null || agendaVo.rowid == '' 
-			                  ? 'criarAgendas' : 'atualizarAgendas'}">
+			<s:form action="%{agendaVo.rowid == null ? 'criarAgendas' : 'atualizarAgendas'}">
 				<s:actionerror cssClass="alert alert-danger m-3"/>
 
 				<div class="card mt-5">

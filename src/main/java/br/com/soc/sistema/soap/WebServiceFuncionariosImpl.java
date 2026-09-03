@@ -16,12 +16,15 @@ public class WebServiceFuncionariosImpl implements WebServiceFuncionarios {
 	}
 	
 	@Override
-	public String buscarFuncionario(String codigo) {
+	public String buscarFuncionario(String cod) {
 	    try {
+	    	Long codigo = Long.parseLong(cod);
 	        FuncionarioVo vo = business.buscarFuncionarioPor(codigo);
 	        if (vo == null)
 	            return "Funcionario nao encontrado";
 	        return vo.toString();
+	    } catch (NumberFormatException e) {
+	        return "Foi informado um caracter no lugar de um numero";
 	    } catch (BusinessException e) {
 	        return e.getMessage();
 	    }

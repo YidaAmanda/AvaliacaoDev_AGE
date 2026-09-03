@@ -15,8 +15,7 @@ public class AgendaDao extends Dao {
 	
 	public void deleteAgenda(Long codigo){
 		StringBuilder query = new StringBuilder("DELETE FROM agenda WHERE rowid=? ");
-		try(
-			Connection con = getConexao();
+		try(Connection con = getConexao();
 			PreparedStatement  ps = con.prepareStatement(query.toString())){
 			
 			int i=1;
@@ -29,14 +28,13 @@ public class AgendaDao extends Dao {
 	
 	public int updateAgenda(AgendaVo agendaVo){
 		StringBuilder query = new StringBuilder("UPDATE agenda SET nm_agenda = ?, prd_disponivel = ? WHERE rowid=? ");
-		try(
-			Connection con = getConexao();
+		try(Connection con = getConexao();
 			PreparedStatement  ps = con.prepareStatement(query.toString())){
 			
 			int i=1;
 			ps.setString(i++, agendaVo.getNome());
-			ps.setInt(i++, Integer.parseInt(agendaVo.getPeriodoDisponivel()));
-			ps.setLong(i++, Long.parseLong(agendaVo.getRowid()));
+			ps.setInt(i++, agendaVo.getPeriodoDisponivel());
+			ps.setLong(i++, agendaVo.getRowid());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new TechnicalException("Falha ao editar agenda", e);
@@ -45,13 +43,12 @@ public class AgendaDao extends Dao {
 	
 	public void insertAgenda(AgendaVo agendaVo){
 		StringBuilder query = new StringBuilder("INSERT INTO agenda (nm_agenda, prd_disponivel) values (?, ?) ");
-		try(
-			Connection con = getConexao();
+		try(Connection con = getConexao();
 			PreparedStatement  ps = con.prepareStatement(query.toString())){
 			
 			int i=1;
 			ps.setString(i++, agendaVo.getNome());
-			ps.setInt(i++, Integer.parseInt(agendaVo.getPeriodoDisponivel()));
+			ps.setInt(i++, agendaVo.getPeriodoDisponivel());
 			ps.executeUpdate();
 		}catch (SQLException e) {
 			throw new TechnicalException("Falha ao inserir agenda", e);
@@ -60,8 +57,7 @@ public class AgendaDao extends Dao {
 	
 	public List<AgendaVo> findAllAgendas(){
 		StringBuilder query = new StringBuilder("SELECT rowid id, nm_agenda nome, prd_disponivel periodo FROM agenda ");
-		try(
-			Connection con = getConexao();
+		try(Connection con = getConexao();
 			PreparedStatement  ps = con.prepareStatement(query.toString());
 			ResultSet rs = ps.executeQuery()){
 			
@@ -69,17 +65,15 @@ public class AgendaDao extends Dao {
 			List<AgendaVo> agendas = new ArrayList<>();
 			while (rs.next()) {
 				vo = new AgendaVo();
-				vo.setRowid(rs.getString("id"));
+				vo.setRowid(rs.getLong("id"));
 				vo.setNome(rs.getString("nome"));	
-				vo.setPeriodoDisponivel(rs.getString("periodo"));
+				vo.setPeriodoDisponivel(rs.getInt("periodo"));
 				agendas.add(vo);
 			}
 			return agendas;
-		}catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+		    throw new TechnicalException("Falha ao consultar agendas", e);
 		}
-		
-		return Collections.emptyList();
 	}
 	
 	public List<AgendaVo> findAllByNome(String nome){
@@ -98,17 +92,38 @@ public class AgendaDao extends Dao {
 				
 				while (rs.next()) {
 					vo = new AgendaVo();
-					vo.setRowid(rs.getString("id"));
+					vo.setRowid(rs.getLong("id"));
 					vo.setNome(rs.getString("nome"));	
-					vo.setPeriodoDisponivel(rs.getString("periodo"));
+					vo.setPeriodoDisponivel(rs.getInt("periodo"));
 					agendas.add(vo);
 				}
 				return agendas;
 			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		return Collections.emptyList();
+		} catch (SQLException e) {
+		    throw new TechnicalException("Falha ao consultar agendas", e);
+		}
+	}
+	
+	public List<AgendaVo> findAllByPeriodo(Integer periodo) {
+	    StringBuilder query = new StringBuilder("SELECT rowid id, nm_agenda nome, prd_disponivel periodo FROM agenda ")
+	                            .append("WHERE prd_disponivel = ?");
+	    try (Connection con = getConexao();
+	         PreparedStatement ps = con.prepareStatement(query.toString())) {
+	        ps.setInt(1, periodo);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            List<AgendaVo> agendas = new ArrayList<>();
+	            while (rs.next()) {
+	                AgendaVo vo = new AgendaVo();
+	                vo.setRowid(rs.getLong("id"));
+	                vo.setNome(rs.getString("nome"));
+	                vo.setPeriodoDisponivel(rs.getInt("periodo"));
+	                agendas.add(vo);
+	            }
+	            return agendas;
+	        }
+	    } catch (SQLException e) {
+	        throw new TechnicalException("Falha ao consultar agendas", e);
+	    }
 	}
 	
 	public AgendaVo findByCodigo(Long codigo){
@@ -124,17 +139,16 @@ public class AgendaDao extends Dao {
 			try(ResultSet rs = ps.executeQuery()){
 				AgendaVo vo =  null;
 				
-				while (rs.next()) {
+				if (rs.next()) {
 					vo = new AgendaVo();
-					vo.setRowid(rs.getString("id"));
+					vo.setRowid(rs.getLong("id"));
 					vo.setNome(rs.getString("nome"));	
-					vo.setPeriodoDisponivel(rs.getString("periodo"));
+					vo.setPeriodoDisponivel(rs.getInt("periodo"));
 				}
 				return vo;
 			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		return null;
+		} catch (SQLException e) {
+		    throw new TechnicalException("Falha ao consultar agendas", e);
+		}
 	}
 }

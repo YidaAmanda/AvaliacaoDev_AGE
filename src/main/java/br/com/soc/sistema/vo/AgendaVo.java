@@ -3,22 +3,22 @@ package br.com.soc.sistema.vo;
 import br.com.soc.sistema.infra.PeriodoDisponivel; 
 
 public class AgendaVo {
-	private String rowid;
+	private Long rowid;
 	private String nome;
-	private String periodoDisponivel; //1 - 2 - 3
+	private Integer periodoDisponivel; //1 - 2 - 3
 	
 	public AgendaVo() {}
 		
-	public AgendaVo(String rowid, String nome, String periodoDisponivel) {
+	public AgendaVo(Long rowid, String nome, Integer periodoDisponivel) {
 		this.rowid = rowid;
 		this.nome = nome;
 		this.periodoDisponivel = periodoDisponivel;
 	}
 
-	public String getRowid() {
+	public Long getRowid() {
 		return rowid;
 	}
-	public void setRowid(String rowid) {
+	public void setRowid(Long rowid) {
 		this.rowid = rowid;
 	}
 	public String getNome() {
@@ -28,11 +28,11 @@ public class AgendaVo {
 		this.nome = nome;
 	}
 	
-	public String getPeriodoDisponivel() {
+	public Integer getPeriodoDisponivel() {
 		return periodoDisponivel;
 	}
 	
-	public void setPeriodoDisponivel(String periodoDisponivel) {
+	public void setPeriodoDisponivel(Integer periodoDisponivel) {
 		this.periodoDisponivel = periodoDisponivel;
 	}
 	

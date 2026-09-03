@@ -15,24 +15,21 @@
 					<s:actionmessage cssClass="alert alert-warning"/>
 					<s:form action="/filtrarFuncionarios.action">
 						<div class="input-group">
-							<span class="input-group-text">
-								<strong><s:text name="label.buscar.por"/></strong>
-							</span>	
-								<s:select  
-									cssClass="form-select" 
-									name="filtrar.opcoesCombo" 
-									list="listaOpcoesCombo"  
-									headerKey=""  
-									headerValue="Escolha..." 
-									listKey="%{codigo}" 
-									listValueKey="%{descricao}"
-									value="filtrar.opcoesCombo.codigo"									
-								/>
-								
-								<s:textfield cssClass="form-control" id="nome" name="filtrar.valorBusca"/>
-								<button class="btn btn-primary" type="submit"><s:text name="label.pesquisar"/></button>
+							<span class="input-group-text"><strong><s:text name="label.buscar.por"/></strong></span>
+							
+							<s:select  
+								cssClass="form-select"
+								id="criterio"
+								name="filtrar.criterio"
+								list="listaCriterios"
+								listKey="%{codigo}" 
+								listValueKey="%{descricao}"								
+							/>
+														
+							<s:textfield cssClass="form-control" id="buscaTexto" name="filtrar.busca"/>
+							<button class="btn btn-primary" type="submit"><s:text name="label.pesquisar"/></button>
 						</div>
-					</s:form>			
+					</s:form>
 				</div>				
 			</div>
 
@@ -121,19 +118,37 @@
 		<script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 		
 		<script>
-		document.addEventListener('DOMContentLoaded', function () {
-		    var modal = document.getElementById('confirmarExclusao');
-		    var inputRowid = document.getElementById('rowidExcluir');
-
-		    modal.addEventListener('show.bs.modal', function (event) {
-		        var botao = event.relatedTarget;
-		        inputRowid.value = botao.getAttribute('data-rowid');
-		    });
-
-		    modal.addEventListener('hidden.bs.modal', function () {
-		        inputRowid.value = '';
-		    });
-		});
+			document.addEventListener('DOMContentLoaded', function () {
+			    var criterio = document.getElementById('criterio');
+			    var texto = document.getElementById('buscaTexto');
+	
+			    function alternar() {
+			        var v = criterio.value;
+			        var ehTexto = (v === 'CODIGO' || v === 'NOME');
+					
+			        texto.hidden = !ehTexto;
+			        texto.disabled = !ehTexto;
+			    }
+				
+			    criterio.addEventListener('change', alternar);
+			    alternar();
+			});
+		</script>
+		
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+			    var modal = document.getElementById('confirmarExclusao');
+			    var inputRowid = document.getElementById('rowidExcluir');
+	
+			    modal.addEventListener('show.bs.modal', function (event) {
+			        var botao = event.relatedTarget;
+			        inputRowid.value = botao.getAttribute('data-rowid');
+			    });
+	
+			    modal.addEventListener('hidden.bs.modal', function () {
+			        inputRowid.value = '';
+			    });
+			});
 		</script>
 	</body>
 </html>

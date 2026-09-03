@@ -8,7 +8,6 @@ import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.business.AgendaBusiness;
 import br.com.soc.sistema.filter.AgendaFilter;
 import br.com.soc.sistema.infra.Action;
-import br.com.soc.sistema.infra.OpcoesComboBuscar;
 import br.com.soc.sistema.infra.PeriodoDisponivel;
 import br.com.soc.sistema.vo.AgendaVo;
 
@@ -105,8 +104,8 @@ public class AgendaAction extends Action {
 	    return REDIRECT;
 	}
 	
-	public List<OpcoesComboBuscar> getListaOpcoesCombo(){
-		return Arrays.asList(OpcoesComboBuscar.values());
+	public List<AgendaFilter.Criterio> getListaCriterios() {
+	    return Arrays.asList(AgendaFilter.Criterio.values());
 	}
 	
 	public List<PeriodoDisponivel> getListaPeriodos(){

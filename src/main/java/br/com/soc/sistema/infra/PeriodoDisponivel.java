@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum PeriodoDisponivel {
-	MANHA("1", "Manhã"), 
-	TARDE("2", "Tarde"),
-	AMBOS("3", "Ambos");
+	MANHA(1, "Manhã"), 
+	TARDE(2, "Tarde"),
+	AMBOS(3, "Ambos");
 
-	private String codigo;
+	private Integer codigo;
 	private String descricao;
-	private final static Map<String, PeriodoDisponivel> opcoes = new HashMap<>();
+	private final static Map<Integer, PeriodoDisponivel> opcoes = new HashMap<>();
 	
 	static {
 		Arrays.asList(PeriodoDisponivel.values())
@@ -21,20 +21,20 @@ public enum PeriodoDisponivel {
 		);
 	}
 	
-	private PeriodoDisponivel(String codigo, String descricao) {
+	private PeriodoDisponivel(Integer codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
 	
-	public static Optional<PeriodoDisponivel> buscarPor(String codigo) {
+	public static Optional<PeriodoDisponivel> buscarPor(Integer codigo) {
 	    return getOpcao(codigo);
 	}
 	
-	private static Optional<PeriodoDisponivel> getOpcao(String codigo){
+	private static Optional<PeriodoDisponivel> getOpcao(Integer codigo){
 		return Optional.ofNullable(opcoes.get(codigo));
 	}
 	
-	public String getCodigo() {
+	public Integer getCodigo() {
 		return codigo;
 	}
 	
