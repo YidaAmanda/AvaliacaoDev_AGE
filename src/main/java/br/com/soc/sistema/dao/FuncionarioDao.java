@@ -12,17 +12,49 @@ import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioDao extends Dao {
 	
-	public void deleteFuncionario(Long codigo){
-		StringBuilder query = new StringBuilder("DELETE FROM funcionario WHERE rowid=?");
-		try(Connection con = getConexao();
-			PreparedStatement  ps = con.prepareStatement(query.toString())){
-			
-			int i=1;
-			ps.setLong(i, codigo);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao excluir funcionario", e);
-		}
+	public int deleteFuncionario(Long codigo) {
+	    if (codigo == null) {
+	        throw new TechnicalException("Codigo do funcionario nao informado");
+	    }
+
+	    String delComp = "DELETE FROM compromisso WHERE rowid_funcionario = ?";
+	    String delFunc = "DELETE FROM funcionario WHERE rowid = ?";
+
+	    Connection con = null;
+	    try {
+	        con = getConexao();
+	        con.setAutoCommit(false);
+
+	        int linhasFuncionario;
+	        try (PreparedStatement psComp = con.prepareStatement(delComp);
+	             PreparedStatement psFunc = con.prepareStatement(delFunc)) {
+
+	            psComp.setLong(1, codigo);
+	            psComp.executeUpdate();
+
+	            psFunc.setLong(1, codigo);
+	            linhasFuncionario = psFunc.executeUpdate();
+	        }
+
+	        con.commit();
+	        return linhasFuncionario;
+	    } catch (SQLException e) {
+	        try {
+	            if (con != null) con.rollback();
+	        } catch (SQLException rollbackEx) {
+	            rollbackEx.printStackTrace();
+	        }
+	        throw new TechnicalException("Falha ao excluir funcionario e seus compromissos", e);
+	    } finally {
+	        try {
+	            if (con != null) {
+	                con.setAutoCommit(true);
+	                con.close();
+	            }
+	        } catch (SQLException closeEx) {
+	            closeEx.printStackTrace();
+	        }
+	    }
 	}
 	
 	public int updateFuncionario(FuncionarioVo funcionarioVo){

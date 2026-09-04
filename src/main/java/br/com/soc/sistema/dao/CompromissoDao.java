@@ -56,6 +56,20 @@ public class CompromissoDao extends Dao {
 	    }
 	}
 	
+	public boolean existePorAgenda(Long codigo) {
+	    StringBuilder query = new StringBuilder("SELECT COUNT(*) total FROM compromisso WHERE rowid_agenda = ? ");
+	    try (Connection con = getConexao();
+	         PreparedStatement ps = con.prepareStatement(query.toString())) {
+	        int i = 1;
+	        ps.setLong(i++, codigo);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            return rs.next() && rs.getInt("total") > 0;
+	        }
+	    } catch (SQLException e) {
+	        throw new TechnicalException("Falha ao verificar se ha compromissos na agenda", e);
+	    }
+	}
+	
 	public void deleteCompromisso(Long codigo){
 		StringBuilder query = new StringBuilder("DELETE FROM compromisso WHERE rowid=? ");
 		try(Connection con = getConexao();

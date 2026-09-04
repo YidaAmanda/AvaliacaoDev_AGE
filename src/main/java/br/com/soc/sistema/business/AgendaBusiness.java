@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.soc.sistema.dao.AgendaDao;
+import br.com.soc.sistema.dao.CompromissoDao;
 import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.filter.AgendaFilter;
 import br.com.soc.sistema.vo.AgendaVo;
@@ -68,6 +69,9 @@ public class AgendaBusiness {
 	}
 	
 	public void excluirAgenda(Long codigo) {
+		if (new CompromissoDao().existePorAgenda(codigo))
+		    throw new BusinessException("Agenda possui compromissos e não pode ser excluída");
+		
 		try {
 			dao.deleteAgenda(codigo);
 		}catch (Exception e) {
