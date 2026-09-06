@@ -9,6 +9,21 @@
 	</head>
 	<body class="bg-secondary">	
 		<div class="container">
+			<div class="row mt-4">
+			    <div class="col-sm p-0">
+			        <div class="btn-group w-100" role="group">
+			            <s:url action="todosFuncionarios" var="navFunc"/>
+			            <a href="${navFunc}" class="btn btn-primary">Funcionários</a>
+
+			            <s:url action="todosAgendas" var="navAgen"/>
+			            <a href="${navAgen}" class="btn btn-primary">Agendas</a>
+
+			            <s:url action="todosCompromissos" var="navComp"/>
+			            <a href="${navComp}" class="btn btn-primary">Compromissos</a>
+			        </div>
+			    </div>
+			</div>
+			
 			<div class="row mt-5 mb-2">
 				<div class="col-sm p-0">
 					<s:actionerror cssClass="alert alert-danger"/>
@@ -66,8 +81,8 @@
 							    <td>${rowid}</td>
 							    <td>${funcionario.nome}</td>
 							    <td>${agenda.nome}</td>
-							    <td>${data}</td>
-							    <td>${hora}</td>
+								<td>${dataFormatada}</td>
+								<td>${horaFormatada}</td>
 							    <td class="text-end">
 							        <s:url action="editarCompromissos" var="editar">
 							            <s:param name="compromissoVo.rowid" value="rowid"></s:param>

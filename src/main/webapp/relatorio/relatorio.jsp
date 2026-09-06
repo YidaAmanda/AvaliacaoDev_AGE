@@ -6,10 +6,31 @@
 		<meta charset="UTF-8">
 		<title><s:text name="label.titulo.pagina.relatorio"/></title>
 		<link rel='stylesheet' href='webjars/bootstrap/5.1.3/css/bootstrap.min.css'>
+		<style>
+			@media print {
+				.no-print { display: none !important; }
+				body { background: #fff !important; }
+			}
+		</style>
 	</head>
 	<body class="bg-secondary">
 		<div class="container">
-			<div class="row mt-5 mb-2">
+			<div class="row mt-4 no-print">
+			    <div class="col-sm p-0">
+			        <div class="btn-group w-100" role="group">
+			            <s:url action="todosFuncionarios" var="navFunc"/>
+			            <a href="${navFunc}" class="btn btn-primary">Funcionários</a>
+
+			            <s:url action="todosAgendas" var="navAgen"/>
+			            <a href="${navAgen}" class="btn btn-primary">Agendas</a>
+
+			            <s:url action="todosCompromissos" var="navComp"/>
+			            <a href="${navComp}" class="btn btn-primary">Compromissos</a>
+			        </div>
+			    </div>
+			</div>
+			
+			<div class="row mt-5 mb-2 no-print">
 				<div class="col-sm p-0">
 					<s:actionerror cssClass="alert alert-danger"/>
 					<s:actionmessage cssClass="alert alert-warning"/>
@@ -17,13 +38,14 @@
 					<s:form action="gerarRelatorios" method="post">
 						<div class="input-group">
 							<span class="input-group-text"><strong><s:text name="label.data.inicial"/></strong></span>
-							<s:textfield type="date" cssClass="form-control" name="dataInicial"/>
+							<s:textfield type="date" cssClass="form-control" name="dataInicial" required="true"/>
 
 							<span class="input-group-text"><strong><s:text name="label.data.final"/></strong></span>
-							<s:textfield type="date" cssClass="form-control" name="dataFinal"/>
+							<s:textfield type="date" cssClass="form-control" name="dataFinal" required="true"/>
 
 							<button class="btn btn-primary" type="submit"><s:text name="label.gerar"/></button>
 							<button class="btn btn-success" type="submit" formaction="exportarRelatorios.action"><s:text name="label.exportar"/></button>
+							<button class="btn btn-outline-dark" type="button" onclick="window.print()"><s:text name="label.imprimir"/></button>
 						</div>
 					</s:form>
 				</div>
