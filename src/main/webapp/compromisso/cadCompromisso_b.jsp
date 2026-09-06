@@ -82,11 +82,18 @@
 					
 					<tfoot class="table-secondary">
 						<tr>
-							<td colspan="6">
+							<td colspan="5">
 								<s:url action="novoCompromissos" var="novo"/>
 								
 								<a href="${novo}" class="btn btn-success">
 									<s:text name="label.novo"/>
+								</a>
+							</td>
+							<td class="text-end">
+								<s:url action="abrirRelatorios" var="relatorio"/>
+
+								<a href="${relatorio}" class="btn btn-outline-primary">
+									<s:text name="label.exportar.relatorio"/>
 								</a>
 							</td>
 						</tr>

@@ -29,6 +29,17 @@
 			<result name="input">/compromisso/cadCompromisso_i.jsp</result>
 			<result name="redirect" type="redirectAction">todosCompromissos</result>
 		</action>
+		
+		<action name="*Relatorios" class="br.com.soc.sistema.action.RelatorioAction" method="{1}">
+			<result name="success">/relatorio/relatorio.jsp</result>
+			<result name="input">/relatorio/relatorio.jsp</result>
+			<result name="excel" type="stream">
+				<param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+				<param name="inputName">arquivo</param>
+				<param name="contentDisposition">attachment;filename="compromissos.xlsx"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
     </package>
 
 </struts>

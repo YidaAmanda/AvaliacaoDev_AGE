@@ -2,6 +2,7 @@ package br.com.soc.sistema.vo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class CompromissoVo {
 	private Long rowid;
@@ -44,12 +45,18 @@ public class CompromissoVo {
 	public LocalDate getData() {
 		return data;
 	}
+	public String getDataFormatada() {
+	    return data == null ? "" : data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	}
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
 	
 	public LocalTime getHora() {
 		return hora;
+	}
+	public String getHoraFormatada() {
+	    return hora == null ? "" : hora.format(DateTimeFormatter.ofPattern("HH:mm"));
 	}
 	public void setHora(LocalTime hora) {
 		this.hora = hora;

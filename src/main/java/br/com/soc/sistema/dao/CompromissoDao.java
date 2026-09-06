@@ -170,6 +170,35 @@ public class CompromissoDao extends Dao {
 		}
 	}
 	
+	public List<CompromissoVo> findPorPeriodo(LocalDate inicio, LocalDate fim){
+	    StringBuilder query = new StringBuilder("SELECT f.rowid idFunc, f.nm_funcionario nmFunc, ")
+	    								.append("a.rowid idAgen, a.nm_agenda nmAgen, a.prd_disponivel prdAgen, ")
+	    								.append("c.rowid idComp, c.dt_compromisso dtComp, c.hr_compromisso hrComp FROM compromisso c ")
+	    								.append("INNER JOIN funcionario f ON f.rowid = c.rowid_funcionario ")
+	    								.append("INNER JOIN agenda a ON a.rowid = c.rowid_agenda ")
+	    								.append("WHERE c.dt_compromisso BETWEEN ? AND ? ")
+	    								.append("ORDER BY c.dt_compromisso, c.hr_compromisso");
+
+	    try(Connection con = getConexao();
+	            PreparedStatement ps = con.prepareStatement(query.toString())){
+	            int i = 1;
+
+	            ps.setDate(i++, Date.valueOf(inicio));
+	            ps.setDate(i++, Date.valueOf(fim));
+
+	            try(ResultSet rs = ps.executeQuery()){
+	                List<CompromissoVo> compromissos = new ArrayList<>();
+
+	                while (rs.next()) {
+	                    compromissos.add(montarCompromisso(rs));
+	                }
+	                return compromissos;
+	            }
+	        } catch (SQLException e) {
+	            throw new TechnicalException("Falha ao consultar compromissos por periodo", e);
+	        }
+	}
+	
 	public List<CompromissoVo> findAllByAgenda(Long codigo){
 		StringBuilder query = new StringBuilder("SELECT f.rowid idFunc, f.nm_funcionario nmFunc, ")
 										.append("a.rowid idAgen, a.nm_agenda nmAgen, a.prd_disponivel prdAgen, ")
