@@ -39,10 +39,6 @@ public class CompromissoBusiness {
 		
 		if (compromissoVo.getHora() == null)
 			throw new BusinessException("Hora nao pode ser nula");
-
-		LocalDateTime quando = LocalDateTime.of(compromissoVo.getData(), compromissoVo.getHora());
-		if (quando.isBefore(LocalDateTime.now()))
-		    throw new BusinessException("Data/hora do compromisso nao pode estar no passado");
 		
 		AgendaVo agenda = agendaBusiness.buscarAgendaPor(compromissoVo.getAgenda().getRowid());
 		if (agenda == null)
@@ -59,8 +55,15 @@ public class CompromissoBusiness {
 		    throw new BusinessException("Funcionario ja possui compromisso nesta data e horario");
 	}
 	
+	private void validarDataFutura(CompromissoVo compromissoVo) {
+		LocalDateTime quando = LocalDateTime.of(compromissoVo.getData(), compromissoVo.getHora());
+		if (quando.isBefore(LocalDateTime.now()))
+			throw new BusinessException("Data/hora do compromisso nao pode estar no passado");
+	}
+	
 	public void salvarCompromisso(CompromissoVo compromissoVo) {
 		validarENormalizar(compromissoVo);
+		validarDataFutura(compromissoVo);
 		
 		try {
 			dao.insertCompromisso(compromissoVo);

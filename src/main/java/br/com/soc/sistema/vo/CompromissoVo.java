@@ -64,6 +64,8 @@ public class CompromissoVo {
 	
 	@Override
 	public String toString() {
-		return "CompromissoVo [rowid=" + rowid + ", funcionario=" + funcionarioVo.getNome() + ", agenda=" + agendaVo.getNome() + ", data=" + data + ", hora=" + hora + "]";
+		String nomeFunc = funcionarioVo == null ? null : funcionarioVo.getNome();
+		String nomeAgen = agendaVo == null ? null : agendaVo.getNome();
+		return "CompromissoVo [rowid=" + rowid + ", funcionario=" + nomeFunc + ", agenda=" + nomeAgen + ", data=" + data + ", hora=" + hora + "]";
 	}
 }

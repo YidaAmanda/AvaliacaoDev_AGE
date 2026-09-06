@@ -1,3 +1,3 @@
 <% 
-  response.sendRedirect("/avaliacao/todosFuncionarios.action");
+  response.sendRedirect("/avaliacao/todosCompromissos.action");
 %> 
