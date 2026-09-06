@@ -6,7 +6,6 @@ import java.util.List;
 import br.com.soc.sistema.dao.FuncionarioDao;
 import br.com.soc.sistema.exception.BusinessException;
 import br.com.soc.sistema.filter.FuncionarioFilter;
-import br.com.soc.sistema.vo.AgendaVo;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioBusiness {

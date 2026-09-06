@@ -15,6 +15,7 @@ public class AgendaBusiness {
 	private static final int NOME_TAMANHO_MAXIMO = 255;
 	private static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
 	private AgendaDao dao;
+	private CompromissoDao compromissoDao = new CompromissoDao();
 	
 	public AgendaBusiness() {
 		this.dao = new AgendaDao();
@@ -69,8 +70,8 @@ public class AgendaBusiness {
 	}
 	
 	public void excluirAgenda(Long codigo) {
-		if (new CompromissoDao().existePorAgenda(codigo))
-		    throw new BusinessException("Agenda possui compromissos e não pode ser excluída");
+		if (compromissoDao.existePorAgenda(codigo))
+		    throw new BusinessException("Agenda possui compromissos e nao pode ser excluida");
 		
 		try {
 			dao.deleteAgenda(codigo);
