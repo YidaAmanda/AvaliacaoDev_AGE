@@ -16,12 +16,12 @@ import br.com.soc.sistema.business.FuncionarioBusiness;
 import br.com.soc.sistema.business.AgendaBusiness;
 
 public class CompromissoAction extends Action {
-	
 	private List<CompromissoVo> compromissos = new ArrayList<>();
 	private CompromissoBusiness business = new CompromissoBusiness();
 	private CompromissoFilter filtrar = new CompromissoFilter();
 	private CompromissoVo compromissoVo = new CompromissoVo();
 	
+	/*1*/
 	public String todos() {
 		compromissos.addAll(business.trazerTodosOsCompromissos());	
 
@@ -45,7 +45,9 @@ public class CompromissoAction extends Action {
 		
 		return SUCCESS;
 	}
+	/*1*/
 	
+	/*2*/
 	public String novo() {
 		return INPUT;
 	}
@@ -60,7 +62,9 @@ public class CompromissoAction extends Action {
 		
 		return REDIRECT;
 	}
+	/*2*/
 	
+	/*3*/
 	public String editar() {
 		if(compromissoVo.getRowid() == null)
 			return REDIRECT;
@@ -79,21 +83,7 @@ public class CompromissoAction extends Action {
 			
 		return INPUT;
 	}
-	
-	public String deletar() {
-	    if (compromissoVo.getRowid() == null)
-	        return REDIRECT;
-	    
-	    try {
-	        business.excluirCompromisso(compromissoVo.getRowid());
-	    } catch (Exception e) {
-	        addActionError(e.getMessage());
-	        compromissos.addAll(business.trazerTodosOsCompromissos());
-	        return SUCCESS;
-	    }
-	    return REDIRECT;
-	}
-	
+
 	public String atualizar() {
 		if(compromissoVo.getRowid() == null)
 			return REDIRECT;
@@ -107,6 +97,23 @@ public class CompromissoAction extends Action {
 		
 	    return REDIRECT;
 	}
+	/*3*/
+	
+	/*4*/
+	public String deletar() {
+	    if (compromissoVo.getRowid() == null)
+	        return REDIRECT;
+	    
+	    try {
+	        business.excluirCompromisso(compromissoVo.getRowid());
+	    } catch (Exception e) {
+	        addActionError(e.getMessage());
+	        compromissos.addAll(business.trazerTodosOsCompromissos());
+	        return SUCCESS;
+	    }
+	    return REDIRECT;
+	}
+	/*4*/
 	
 	public List<CompromissoFilter.Criterio> getListaCriterios() {
 	    return Arrays.asList(CompromissoFilter.Criterio.values());
@@ -127,7 +134,6 @@ public class CompromissoAction extends Action {
 	public List<CompromissoVo> getCompromissos() {
 		return compromissos;
 	}
-
 	public void setCompromissos(List<CompromissoVo> compromissos) {
 		this.compromissos = compromissos;
 	}
@@ -135,7 +141,6 @@ public class CompromissoAction extends Action {
 	public CompromissoFilter getFiltrar() {
 		return filtrar;
 	}
-
 	public void setFiltrar(CompromissoFilter filtrar) {
 		this.filtrar = filtrar;
 	}
@@ -143,7 +148,6 @@ public class CompromissoAction extends Action {
 	public CompromissoVo getCompromissoVo() {
 		return compromissoVo;
 	}
-
 	public void setCompromissoVo(CompromissoVo compromissoVo) {
 		this.compromissoVo = compromissoVo;
 	}

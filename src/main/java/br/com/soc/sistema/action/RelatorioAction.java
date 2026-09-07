@@ -16,7 +16,6 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.CompromissoVo;
 
 public class RelatorioAction extends Action {
-
 	private RelatorioBusiness business = new RelatorioBusiness();
 	private RelatorioExporter exporter = new RelatorioExporter();
 

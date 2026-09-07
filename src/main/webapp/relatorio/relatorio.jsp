@@ -9,6 +9,7 @@
 		<style>
 			@media print {
 				.no-print { display: none !important; }
+				.container { width: 100% !important; max-width: 100% !important; }
 				body { background: #fff !important; }
 			}
 		</style>
@@ -55,10 +56,12 @@
 				<table class="table table-light table-striped align-middle">
 					<thead>
 						<tr>
+							<th><s:text name="label.cod.compromisso"/></th>
 							<th><s:text name="label.cod.funcionario"/></th>
 							<th><s:text name="label.nome.funcionario"/></th>
 							<th><s:text name="label.cod.agenda"/></th>
 							<th><s:text name="label.nome.agenda"/></th>
+							<th><s:text name="label.nome.periodo"/></th>
 							<th><s:text name="label.data"/></th>
 							<th><s:text name="label.hora"/></th>
 						</tr>
@@ -66,10 +69,12 @@
 					<tbody>
 						<s:iterator value="compromissos">
 							<tr>
+								<td>${rowid}</td>
 								<td>${funcionario.rowid}</td>
 								<td>${funcionario.nome}</td>
 								<td>${agenda.rowid}</td>
 								<td>${agenda.nome}</td>
+								<td>${agenda.descricaoPeriodo}</td>
 								<td>${dataFormatada}</td>
 								<td>${horaFormatada}</td>
 							</tr>

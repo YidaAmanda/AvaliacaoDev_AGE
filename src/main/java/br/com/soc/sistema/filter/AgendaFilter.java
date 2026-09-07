@@ -29,7 +29,6 @@ public class AgendaFilter {
     public Criterio getCriterio() {
     	return criterio;
     }
-    
     public void setCriterio(Criterio criterio) {
     	this.criterio = criterio;
     }
@@ -37,7 +36,6 @@ public class AgendaFilter {
     public String getBusca() {
     	return busca;
     }
-    
     public void setBusca(String busca) {
     	this.busca = busca;
     }

@@ -17,6 +17,7 @@ public class FuncionarioVo {
 	public void setRowid(Long rowid) {
 		this.rowid = rowid;
 	}
+	
 	public String getNome() {
 		return nome;
 	}

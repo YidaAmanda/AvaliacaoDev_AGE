@@ -12,12 +12,12 @@ import br.com.soc.sistema.infra.PeriodoDisponivel;
 import br.com.soc.sistema.vo.AgendaVo;
 
 public class AgendaAction extends Action {
-	
 	private List<AgendaVo> agendas = new ArrayList<>();
 	private AgendaBusiness business = new AgendaBusiness();
 	private AgendaFilter filtrar = new AgendaFilter();
 	private AgendaVo agendaVo = new AgendaVo();
 	
+	/*1*/
 	public String todos() {
 		agendas.addAll(business.trazerTodasAsAgendas());	
 
@@ -41,7 +41,9 @@ public class AgendaAction extends Action {
 		
 		return SUCCESS;
 	}
+	/*1*/
 	
+	/*2*/
 	public String novo() {
 		return INPUT;
 	}
@@ -56,7 +58,9 @@ public class AgendaAction extends Action {
 		
 		return REDIRECT;
 	}
+	/*2*/
 	
+	/*3*/
 	public String editar() {
 		if(agendaVo.getRowid() == null)
 			return REDIRECT;
@@ -75,21 +79,7 @@ public class AgendaAction extends Action {
 			
 		return INPUT;
 	}
-	
-	public String deletar() {
-	    if (agendaVo.getRowid() == null)
-	        return REDIRECT;
-	    
-	    try {
-	        business.excluirAgenda(agendaVo.getRowid());
-	    } catch (Exception e) {
-	        addActionError(e.getMessage());
-	        agendas.addAll(business.trazerTodasAsAgendas());
-	        return SUCCESS;
-	    }
-	    return REDIRECT;
-	}
-	
+
 	public String atualizar() {
 		if(agendaVo.getRowid() == null)
 			return REDIRECT;
@@ -103,6 +93,23 @@ public class AgendaAction extends Action {
 		
 	    return REDIRECT;
 	}
+	/*3*/
+	
+	/*4*/
+	public String deletar() {
+	    if (agendaVo.getRowid() == null)
+	        return REDIRECT;
+	    
+	    try {
+	        business.excluirAgenda(agendaVo.getRowid());
+	    } catch (Exception e) {
+	        addActionError(e.getMessage());
+	        agendas.addAll(business.trazerTodasAsAgendas());
+	        return SUCCESS;
+	    }
+	    return REDIRECT;
+	}
+	/*4*/
 	
 	public List<AgendaFilter.Criterio> getListaCriterios() {
 	    return Arrays.asList(AgendaFilter.Criterio.values());
@@ -115,7 +122,6 @@ public class AgendaAction extends Action {
 	public List<AgendaVo> getAgendas() {
 		return agendas;
 	}
-
 	public void setAgendas(List<AgendaVo> agendas) {
 		this.agendas = agendas;
 	}
@@ -123,7 +129,6 @@ public class AgendaAction extends Action {
 	public AgendaFilter getFiltrar() {
 		return filtrar;
 	}
-
 	public void setFiltrar(AgendaFilter filtrar) {
 		this.filtrar = filtrar;
 	}
@@ -131,7 +136,6 @@ public class AgendaAction extends Action {
 	public AgendaVo getAgendaVo() {
 		return agendaVo;
 	}
-
 	public void setAgendaVo(AgendaVo agendaVo) {
 		this.agendaVo = agendaVo;
 	}

@@ -11,12 +11,12 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioAction extends Action {
-	
 	private List<FuncionarioVo> funcionarios = new ArrayList<>();
 	private FuncionarioBusiness business = new FuncionarioBusiness();
 	private FuncionarioFilter filtrar = new FuncionarioFilter();
 	private FuncionarioVo funcionarioVo = new FuncionarioVo();
 	
+	/*1*/
 	public String todos() {
 		funcionarios.addAll(business.trazerTodosOsFuncionarios());	
 
@@ -40,7 +40,9 @@ public class FuncionarioAction extends Action {
 		
 		return SUCCESS;
 	}
+	/*1*/
 	
+	/*2*/
 	public String novo() {
 		return INPUT;
 	}
@@ -55,7 +57,9 @@ public class FuncionarioAction extends Action {
 		
 		return REDIRECT;
 	}
+	/*2*/
 	
+	/*3*/
 	public String editar() {
 		if(funcionarioVo.getRowid() == null)
 			return REDIRECT;
@@ -68,13 +72,28 @@ public class FuncionarioAction extends Action {
 		}
 		
 		if(funcionarioVo == null) {
-			//addActionError("Funcionario nao encontrado");
 			return REDIRECT;
 		}
 			
 		return INPUT;
 	}
 	
+	public String atualizar() {
+		if(funcionarioVo.getRowid() == null)
+			return REDIRECT;
+		
+		try {
+			business.atualizarFuncionario(funcionarioVo);
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+			return INPUT;
+		}
+		
+	    return REDIRECT;
+	}
+	/*3*/
+	
+	/*4*/
 	public String deletar() {
 		if(funcionarioVo.getRowid() == null)
 			return REDIRECT;
@@ -89,20 +108,7 @@ public class FuncionarioAction extends Action {
 
 		return REDIRECT;
 	}
-
-	public String atualizar() {
-		if(funcionarioVo.getRowid() == null)
-			return REDIRECT;
-		
-		try {
-			business.atualizarFuncionario(funcionarioVo);
-		} catch (Exception e) {
-			addActionError(e.getMessage());
-			return INPUT;
-		}
-		
-	    return REDIRECT;
-	}
+	/*4*/
 	
 	public List<FuncionarioFilter.Criterio> getListaCriterios() {
 	    return Arrays.asList(FuncionarioFilter.Criterio.values());
@@ -111,7 +117,6 @@ public class FuncionarioAction extends Action {
 	public List<FuncionarioVo> getFuncionarios() {
 		return funcionarios;
 	}
-
 	public void setFuncionarios(List<FuncionarioVo> funcionarios) {
 		this.funcionarios = funcionarios;
 	}
@@ -119,7 +124,6 @@ public class FuncionarioAction extends Action {
 	public FuncionarioFilter getFiltrar() {
 		return filtrar;
 	}
-
 	public void setFiltrar(FuncionarioFilter filtrar) {
 		this.filtrar = filtrar;
 	}
@@ -127,7 +131,6 @@ public class FuncionarioAction extends Action {
 	public FuncionarioVo getFuncionarioVo() {
 		return funcionarioVo;
 	}
-
 	public void setFuncionarioVo(FuncionarioVo funcionarioVo) {
 		this.funcionarioVo = funcionarioVo;
 	}

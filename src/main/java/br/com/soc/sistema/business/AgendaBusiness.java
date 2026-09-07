@@ -13,7 +13,6 @@ import br.com.soc.sistema.infra.PeriodoDisponivel;
 
 public class AgendaBusiness {
 	private static final int NOME_TAMANHO_MAXIMO = 255;
-	private static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
 	private AgendaDao dao;
 	private CompromissoDao compromissoDao = new CompromissoDao();
 	
@@ -21,10 +20,53 @@ public class AgendaBusiness {
 		this.dao = new AgendaDao();
 	}
 	
+	/*1*/
 	public List<AgendaVo> trazerTodasAsAgendas(){
 		return dao.findAllAgendas();
-	}	
+	}
 	
+	public AgendaVo buscarAgendaPor(Long codigo) {
+		return dao.findByCodigo(codigo);
+	}
+	
+	public List<AgendaVo> filtrarAgendas(AgendaFilter filter) {
+	    List<AgendaVo> agendas = new ArrayList<>();
+
+	    switch (filter.getCriterio()) {
+	        case TODOS:
+	            agendas.addAll(dao.findAllAgendas());
+	            break;
+
+	        case CODIGO:
+	            try {
+	                Long codigo = Long.parseLong(filter.getBusca().trim());
+	                AgendaVo vo = dao.findByCodigo(codigo);
+	                if (vo != null) agendas.add(vo);
+	            } catch (NumberFormatException e) {
+	                throw new BusinessException("Foi informado um caracter no lugar de um numero");
+	            }
+	            break;
+
+	        case NOME:
+	            agendas.addAll(dao.findAllByNome(filter.getBusca().trim()));
+	            break;
+
+	        case PERIODO:
+	            try {
+	                Integer cod = Integer.parseInt(filter.getBusca().trim());
+	                if (!PeriodoDisponivel.buscarPor(cod).isPresent())
+	                    throw new BusinessException("Periodo invalido");
+	                agendas.addAll(dao.findAllByPeriodo(cod));
+	            } catch (NumberFormatException e) {
+	                throw new BusinessException("Periodo invalido");
+	            }
+	            break;
+	    }
+	    return agendas;
+	}
+	/*1*/
+	
+	/*2 - 3*/
 	private void validarENormalizar(AgendaVo agendaVo) {
 		if (agendaVo.getNome() == null)
 			throw new BusinessException("Nome nao pode ser nulo");
@@ -68,7 +110,9 @@ public class AgendaBusiness {
 	    if (linhas == 0)
 	        throw new BusinessException("Agenda nao encontrada para atualizacao");
 	}
+	/*2 - 3*/
 	
+	/*4*/
 	public void excluirAgenda(Long codigo) {
 		if (compromissoDao.existePorAgenda(codigo))
 		    throw new BusinessException("Agenda possui compromissos e nao pode ser excluida");
@@ -79,44 +123,5 @@ public class AgendaBusiness {
 			throw new BusinessException("Erro ao excluir agenda");
 		}
 	}
-	
-	public List<AgendaVo> filtrarAgendas(AgendaFilter filter) {
-	    List<AgendaVo> agendas = new ArrayList<>();
-
-	    switch (filter.getCriterio()) {
-	        case TODOS:
-	            agendas.addAll(dao.findAllAgendas());
-	            break;
-
-	        case CODIGO:
-	            try {
-	                Long codigo = Long.parseLong(filter.getBusca().trim());
-	                AgendaVo vo = dao.findByCodigo(codigo);
-	                if (vo != null) agendas.add(vo);
-	            } catch (NumberFormatException e) {
-	                throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
-	            }
-	            break;
-
-	        case NOME:
-	            agendas.addAll(dao.findAllByNome(filter.getBusca().trim()));
-	            break;
-
-	        case PERIODO:
-	            try {
-	                Integer cod = Integer.parseInt(filter.getBusca().trim());
-	                if (!PeriodoDisponivel.buscarPor(cod).isPresent())
-	                    throw new BusinessException("Periodo invalido");
-	                agendas.addAll(dao.findAllByPeriodo(cod));
-	            } catch (NumberFormatException e) {
-	                throw new BusinessException("Periodo invalido");
-	            }
-	            break;
-	    }
-	    return agendas;
-	}
-	
-	public AgendaVo buscarAgendaPor(Long codigo) {
-		return dao.findByCodigo(codigo);
-	}
+	/*4*/
 }

@@ -33,7 +33,6 @@ public class CompromissoFilter {
     public Criterio getCriterio() {
     	return criterio;
     }
-    
     public void setCriterio(Criterio criterio) {
     	this.criterio = criterio;
     }
@@ -41,7 +40,6 @@ public class CompromissoFilter {
     public String getBusca() {
     	return busca;
     }
-    
     public void setBusca(String busca) {
     	this.busca = busca;
     }

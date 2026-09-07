@@ -21,6 +21,7 @@ public class AgendaVo {
 	public void setRowid(Long rowid) {
 		this.rowid = rowid;
 	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -31,17 +32,15 @@ public class AgendaVo {
 	public Integer getPeriodoDisponivel() {
 		return periodoDisponivel;
 	}
-	
-	public void setPeriodoDisponivel(Integer periodoDisponivel) {
-		this.periodoDisponivel = periodoDisponivel;
-	}
-	
 	public String getDescricaoPeriodo() {
 	    return PeriodoDisponivel.buscarPor(periodoDisponivel)
 	            .map(PeriodoDisponivel::getDescricao)
 	            .orElse("");
 	}
-	
+	public void setPeriodoDisponivel(Integer periodoDisponivel) {
+		this.periodoDisponivel = periodoDisponivel;
+	}
+
 	@Override
 	public String toString() {
 		return "AgendaVo [rowid=" + rowid + ", nome=" + nome + ", periodoDisponivel=" + periodoDisponivel + "]";
