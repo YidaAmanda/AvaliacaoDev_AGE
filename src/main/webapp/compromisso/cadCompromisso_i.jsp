@@ -36,45 +36,58 @@
 					</div>
 					
 					<div class="card-body">
-						<div class="row align-items-center">
-							<label for="id" class="col-sm-1 col-form-label text-center">
-								Código:
-							</label>	
+					    <div class="row align-items-center">
+					        <label for="id" class="col-sm-1 col-form-label text-center">Código:</label>
+					        <div class="col-sm-2">
+					            <s:textfield cssClass="form-control" id="id" name="compromissoVo.rowid" readonly="true"/>
+					        </div>
+					    </div>
 
-							<div class="col-sm-2">
-								<s:textfield cssClass="form-control" id="id" name="compromissoVo.rowid" readonly="true"/>							
-							</div>	
-						</div>
-						
-						<s:select
-							cssClass="form-select"
-							id="funcionario"
-						    name="compromissoVo.funcionario.rowid"
-						    list="listaFuncionarios"
-							listKey="%{rowid}"
-							listValueKey="%{nome}"
-						    headerKey=""
-							headerValue="Escolha..." 
-						/>
+					    <div class="row align-items-center mt-3">
+					        <label for="funcionario" class="col-sm-1 col-form-label text-center">Funcionário</label>
+					        <div class="col-sm-5">
+					            <s:select 
+									cssClass="form-select"
+									id="funcionario"
+									name="compromissoVo.funcionario.rowid"
+					                list="listaFuncionarios"
+									listKey="%{rowid}"
+									listValueKey="%{nome}"
+					                headerKey=""
+									headerValue="Escolha..."
+								/>
+					        </div>
+					    </div>
 
-						<s:select
-							cssClass="form-select"
-							id="agenda"
-							name="compromissoVo.agenda.rowid"
-							list="listaAgendas"
-							listKey="%{rowid}"
-							listValue="%{nome + ' (' + descricaoPeriodo + ')'}"
-							headerKey=""
-							headerValue="Escolha..." 
-						/>
+					    <div class="row align-items-center mt-3">
+					        <label for="agenda" class="col-sm-1 col-form-label text-center">Agenda:</label>
+					        <div class="col-sm-5">
+					            <s:select
+									cssClass="form-select"
+									id="agenda"
+									name="compromissoVo.agenda.rowid"
+					                list="listaAgendas"
+									listKey="%{rowid}"
+					                listValue="%{nome + ' (' + descricaoPeriodo + ')'}"
+					                headerKey=""
+									headerValue="Escolha..."
+								/>
+					        </div>
+					    </div>
 
-						<div class="col-sm-2">
-							<s:textfield type="date" cssClass="form-control" id="data" name="compromissoVo.data"/>
-						</div>
-						
-						<div class="col-sm-2">
-							<s:textfield type="time" cssClass="form-control" id="hora" name="compromissoVo.hora"/>
-						</div>
+					    <div class="row align-items-center mt-3">
+					        <label for="data" class="col-sm-1 col-form-label text-center">Data:</label>
+					        <div class="col-sm-5">
+					            <s:textfield type="date" cssClass="form-control" id="data" name="compromissoVo.data"/>
+					        </div>
+					    </div>
+
+					    <div class="row align-items-center mt-3">
+					        <label for="hora" class="col-sm-1 col-form-label text-center">Hora:</label>
+					        <div class="col-sm-5">
+					            <s:textfield type="time" cssClass="form-control" id="hora" name="compromissoVo.hora"/>
+					        </div>
+					    </div>
 					</div>
 
 					<div class="card-footer">
