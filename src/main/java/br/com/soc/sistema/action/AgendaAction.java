@@ -12,6 +12,8 @@ import br.com.soc.sistema.infra.PeriodoDisponivel;
 import br.com.soc.sistema.vo.AgendaVo;
 
 public class AgendaAction extends Action {
+	public static final String NENHUMA_AGENDA_ENCONTRADA = "Nenhuma agenda encontrada";
+	
 	private List<AgendaVo> agendas = new ArrayList<>();
 	private AgendaBusiness business = new AgendaBusiness();
 	private AgendaFilter filtrar = new AgendaFilter();
@@ -32,7 +34,7 @@ public class AgendaAction extends Action {
 	        agendas = business.filtrarAgendas(filtrar);
 	        
 	        if (agendas.isEmpty())
-	            addActionMessage("Nenhuma agenda encontrada");
+	            addActionMessage(NENHUMA_AGENDA_ENCONTRADA);
 	        
 	        return SUCCESS;
 	    } catch (BusinessException e) {
@@ -73,7 +75,6 @@ public class AgendaAction extends Action {
 		}
 		
 		if(agendaVo == null) {
-			//addActionError("Agenda nao encontrado");
 			return REDIRECT;
 		}
 			

@@ -16,6 +16,10 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.CompromissoVo;
 
 public class RelatorioAction extends Action {
+	public static final String NENHUM_COMPROMISSO_NO_PERIODO = "Nenhum compromisso encontrado no periodo informado";
+	public static final String SEM_DADOS_PARA_EXPORTAR = "Nao ha dados para exportar no periodo informado";
+	public static final String FALHA_GERAR_EXCEL = "Falha ao gerar o arquivo Excel";
+	
 	private RelatorioBusiness business = new RelatorioBusiness();
 	private RelatorioExporter exporter = new RelatorioExporter();
 
@@ -33,7 +37,7 @@ public class RelatorioAction extends Action {
 			compromissos = business.filtrarPorPeriodo(dataInicial, dataFinal);
 
 			if (compromissos.isEmpty())
-				addActionMessage("Nenhum compromisso encontrado no periodo informado");
+				addActionMessage(NENHUM_COMPROMISSO_NO_PERIODO);
 			} catch (BusinessException e) {
 				addActionError(e.getMessage());
 		}
@@ -44,19 +48,29 @@ public class RelatorioAction extends Action {
     	try {
     		List<CompromissoVo> dados = business.filtrarPorPeriodo(dataInicial, dataFinal);
 
+    		if (dados.isEmpty()) {
+    			compromissos = dados;
+    			addActionMessage(SEM_DADOS_PARA_EXPORTAR);
+    			return INPUT;
+    		}
+    		
     		try (XSSFWorkbook wb = exporter.montarExcel(dados);
-    			ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-    			wb.write(out);
-    			arquivo = new ByteArrayInputStream(out.toByteArray());
+    			 ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+    				wb.write(out);
+    				arquivo = new ByteArrayInputStream(out.toByteArray());
     		}
     	} catch (BusinessException e) {
     		addActionError(e.getMessage());
     		return INPUT;
     	} catch (Exception e) {
-    		addActionError("Falha ao gerar o arquivo Excel");
+    		addActionError(FALHA_GERAR_EXCEL);
     		return INPUT;
     	}
     	return "excel";
+	}
+	
+	public InputStream getArquivo() {
+		return arquivo;
 	}
 
 	public LocalDate getDataInicial() {
@@ -78,9 +92,5 @@ public class RelatorioAction extends Action {
 	}
 	public void setCompromissos(List<CompromissoVo> compromissos) {
 		this.compromissos = compromissos;
-	}
-
-	public InputStream getArquivo() {
-		return arquivo;
 	}
 }

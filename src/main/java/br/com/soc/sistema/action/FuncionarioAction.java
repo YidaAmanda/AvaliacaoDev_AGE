@@ -11,6 +11,8 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioAction extends Action {
+	public static final String NENHUM_FUNCIONARIO_ENCONTRADO = "Nenhum funcionario encontrado";
+	
 	private List<FuncionarioVo> funcionarios = new ArrayList<>();
 	private FuncionarioBusiness business = new FuncionarioBusiness();
 	private FuncionarioFilter filtrar = new FuncionarioFilter();
@@ -31,7 +33,7 @@ public class FuncionarioAction extends Action {
 	        funcionarios = business.filtrarFuncionarios(filtrar);
 	        
 	        if (funcionarios.isEmpty())
-	            addActionMessage("Nenhum funcionário encontrado");
+	            addActionMessage(NENHUM_FUNCIONARIO_ENCONTRADO);
 	        
 	        return SUCCESS;
 	    } catch (BusinessException e) {

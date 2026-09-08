@@ -16,7 +16,7 @@
 			            <a href="${navFunc}" class="btn btn-primary">Funcionários</a>
 
 			            <s:url action="todosAgendas" var="navAgen"/>
-			            <a href="${navAgen}" class="btn btn-primary">Agendas</a>
+			            <a href="${navAgen}" class="btn btn-primary active">Agendas</a>
 
 			            <s:url action="todosCompromissos" var="navComp"/>
 			            <a href="${navComp}" class="btn btn-primary">Compromissos</a>

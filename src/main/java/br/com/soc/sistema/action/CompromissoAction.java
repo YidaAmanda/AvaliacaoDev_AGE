@@ -16,6 +16,8 @@ import br.com.soc.sistema.business.FuncionarioBusiness;
 import br.com.soc.sistema.business.AgendaBusiness;
 
 public class CompromissoAction extends Action {
+	public static final String NENHUM_COMPROMISSO_ENCONTRADO = "Nenhum compromisso encontrado";
+
 	private List<CompromissoVo> compromissos = new ArrayList<>();
 	private CompromissoBusiness business = new CompromissoBusiness();
 	private CompromissoFilter filtrar = new CompromissoFilter();
@@ -36,7 +38,7 @@ public class CompromissoAction extends Action {
 	        compromissos = business.filtrarCompromissos(filtrar);
 	        
 	        if (compromissos.isEmpty())
-	            addActionMessage("Nenhum compromisso encontrado");
+	            addActionMessage(NENHUM_COMPROMISSO_ENCONTRADO);
 	        
 	        return SUCCESS;
 	    } catch (BusinessException e) {
@@ -77,7 +79,6 @@ public class CompromissoAction extends Action {
 		}
 		
 		if(compromissoVo == null) {
-			//addActionError("Compromisso nao encontrado");
 			return REDIRECT;
 		}
 			

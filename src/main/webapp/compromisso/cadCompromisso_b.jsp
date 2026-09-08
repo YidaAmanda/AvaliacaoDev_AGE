@@ -19,7 +19,7 @@
 			            <a href="${navAgen}" class="btn btn-primary">Agendas</a>
 
 			            <s:url action="todosCompromissos" var="navComp"/>
-			            <a href="${navComp}" class="btn btn-primary">Compromissos</a>
+			            <a href="${navComp}" class="btn btn-primary active">Compromissos</a>
 			        </div>
 			    </div>
 			</div>

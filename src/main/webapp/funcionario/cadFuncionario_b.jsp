@@ -13,7 +13,7 @@
 			    <div class="col-sm p-0">
 			        <div class="btn-group w-100" role="group">
 			            <s:url action="todosFuncionarios" var="navFunc"/>
-			            <a href="${navFunc}" class="btn btn-primary">Funcionários</a>
+			            <a href="${navFunc}" class="btn btn-primary active">Funcionários</a>
 
 			            <s:url action="todosAgendas" var="navAgen"/>
 			            <a href="${navAgen}" class="btn btn-primary">Agendas</a>
