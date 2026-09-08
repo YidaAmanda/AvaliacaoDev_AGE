@@ -15,13 +15,35 @@ import br.com.soc.sistema.vo.FuncionarioVo;
 import br.com.soc.sistema.filter.CompromissoFilter;
 
 public class CompromissoBusiness {
-	private static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
+	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
+	public static final String PERIODO_INVALIDO = "Periodo invalido";
+	public static final String DATA_INVALIDA = "Data invalida";
+	public static final String FUNCIONARIO_OBRIGATORIO = "Funcionario obrigatorio";
+	public static final String AGENDA_OBRIGATORIA = "Agenda obrigatoria";
+	public static final String DATA_OBRIGATORIA = "Data obrigatoria";
+	public static final String HORA_OBRIGATORIA = "Hora obrigatoria";
+	public static final String AGENDA_NAO_ENCONTRADA = "Agenda nao encontrada";
+	public static final String FUNCIONARIO_NAO_ENCONTRADO = "Funcionario nao encontrado";
+	public static final String PERIODO_DA_AGENDA_INVALIDO = "Periodo da agenda invalido";
+	public static final String FUNCIONARIO_COM_CONFLITO = "Funcionario ja possui compromisso nesta data e horario";
+	public static final String DATA_NO_PASSADO = "Data/hora do compromisso nao pode estar no passado";
+	public static final String FALHA_INCLUSAO = "Nao foi possivel realizar a inclusao do registro";
+	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
+	public static final String COMPROMISSO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Compromisso nao encontrado para atualizacao";
+	public static final String FALHA_EXCLUSAO = "Erro ao excluir compromisso";
+	
 	private CompromissoDao dao;
 	private AgendaBusiness agendaBusiness = new AgendaBusiness();
 	private FuncionarioBusiness funcionarioBusiness = new FuncionarioBusiness();
 	
 	public CompromissoBusiness() {
 		this.dao = new CompromissoDao();
+	}
+	
+	CompromissoBusiness(CompromissoDao dao, AgendaBusiness agendaBusiness, FuncionarioBusiness funcionarioBusiness) {
+		this.dao = dao;
+		this.agendaBusiness = agendaBusiness;
+		this.funcionarioBusiness = funcionarioBusiness;
 	}
 	
 	/*1*/
@@ -79,10 +101,10 @@ public class CompromissoBusiness {
 	            try {
 	                Integer cod = Integer.parseInt(filter.getBusca().trim());
 	                if (!PeriodoDisponivel.buscarPor(cod).isPresent())
-	                    throw new BusinessException("Periodo invalido");
+	                    throw new BusinessException(PERIODO_INVALIDO);
 	                compromissos.addAll(dao.findAllByPeriodo(cod));
 	            } catch (NumberFormatException e) {
-	                throw new BusinessException("Periodo invalido");
+	                throw new BusinessException(PERIODO_INVALIDO);
 	            }
 	            break;
 
@@ -90,7 +112,7 @@ public class CompromissoBusiness {
 	            try {
 	                compromissos.addAll(dao.findAllByData(LocalDate.parse(filter.getBusca().trim())));
 	            } catch (DateTimeParseException e) {
-	                throw new BusinessException("Data invalida");
+	                throw new BusinessException(DATA_INVALIDA);
 	            }
 	            break;
 	    }
@@ -99,42 +121,46 @@ public class CompromissoBusiness {
 	/*1*/
 	
 	/*2 - 3*/
+	public static String horarioForaDoPeriodo(PeriodoDisponivel periodo) {
+	    return "Horario fora do periodo disponivel da agenda (" + periodo.getDescricao() + ")";
+	}
+	
 	private void validarENormalizar(CompromissoVo compromissoVo) {
 		if (compromissoVo.getFuncionario().getRowid() == null)
-			throw new BusinessException("Funcionario obrigatorio");
+			throw new BusinessException(FUNCIONARIO_OBRIGATORIO);
 		
 		if (compromissoVo.getAgenda().getRowid() == null)
-			throw new BusinessException("Agenda obrigatoria");
+			throw new BusinessException(AGENDA_OBRIGATORIA);
 		
 		if (compromissoVo.getData() == null)
-			throw new BusinessException("Data nao pode ser nula");
+			throw new BusinessException(DATA_OBRIGATORIA);
 		
 		if (compromissoVo.getHora() == null)
-			throw new BusinessException("Hora nao pode ser nula");
+			throw new BusinessException(HORA_OBRIGATORIA);
 		
 		AgendaVo agenda = agendaBusiness.buscarAgendaPor(compromissoVo.getAgenda().getRowid());
 		if (agenda == null)
-		    throw new BusinessException("Agenda nao encontrada");
+		    throw new BusinessException(AGENDA_NAO_ENCONTRADA);
 
 		FuncionarioVo funcionario = funcionarioBusiness.buscarFuncionarioPor(compromissoVo.getFuncionario().getRowid());
 		if (funcionario == null)
-			throw new BusinessException("Funcionario nao encontrada");
+			throw new BusinessException(FUNCIONARIO_NAO_ENCONTRADO);
 		
 		PeriodoDisponivel periodo = PeriodoDisponivel.buscarPor(agenda.getPeriodoDisponivel())
-		        .orElseThrow(() -> new BusinessException("Periodo da agenda invalido"));
+		        .orElseThrow(() -> new BusinessException(PERIODO_DA_AGENDA_INVALIDO));
 
 		if (!periodo.contemHorario(compromissoVo.getHora()))
-		    throw new BusinessException("Horario fora do periodo disponivel da agenda (" + periodo.getDescricao() + ")");
+		    throw new BusinessException(horarioForaDoPeriodo(periodo));
 		
 		if (dao.existeConflito(compromissoVo.getFuncionario().getRowid(), compromissoVo.getData(),
 							   compromissoVo.getHora(), compromissoVo.getRowid()))
-		    throw new BusinessException("Funcionario ja possui compromisso nesta data e horario");
+		    throw new BusinessException(FUNCIONARIO_COM_CONFLITO);
 	}
 	
 	private void validarDataFutura(CompromissoVo compromissoVo) {
 		LocalDateTime quando = LocalDateTime.of(compromissoVo.getData(), compromissoVo.getHora());
 		if (quando.isBefore(LocalDateTime.now()))
-			throw new BusinessException("Data/hora do compromisso nao pode estar no passado");
+			throw new BusinessException(DATA_NO_PASSADO);
 	}
 	
 	public void salvarCompromisso(CompromissoVo compromissoVo) {
@@ -144,7 +170,7 @@ public class CompromissoBusiness {
 		try {
 			dao.insertCompromisso(compromissoVo);
 		} catch (Exception e) {
-			throw new BusinessException("Nao foi possivel realizar a inclusao do registro");
+			throw new BusinessException(FALHA_INCLUSAO);
 		}
 		
 	}	
@@ -157,11 +183,11 @@ public class CompromissoBusiness {
 	    try {
 	        linhas = dao.updateCompromisso(compromissoVo);
 	    } catch (Exception e) {
-	        throw new BusinessException("Nao foi possivel realizar a edicao do registro");
+	        throw new BusinessException(FALHA_EDICAO);
 	    }
 
 	    if (linhas == 0)
-	        throw new BusinessException("Compromisso nao encontrada para atualizacao");
+	        throw new BusinessException(COMPROMISSO_NAO_ENCONTRADO_PARA_ATUALIZACAO);
 	}
 	
 	/*2 - 3*/
@@ -171,7 +197,7 @@ public class CompromissoBusiness {
 		try {
 			dao.deleteCompromisso(codigo);
 		}catch (Exception e) {
-			throw new BusinessException("Erro ao excluir compromisso");
+			throw new BusinessException(FALHA_EXCLUSAO);
 		}
 	}
 	/*4*/	

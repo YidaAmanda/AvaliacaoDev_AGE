@@ -13,11 +13,29 @@ import br.com.soc.sistema.infra.PeriodoDisponivel;
 
 public class AgendaBusiness {
 	private static final int NOME_TAMANHO_MAXIMO = 255;
+	public static final String NOME_EXCEDEU_LIMITE = "Nome deve ter no maximo " + NOME_TAMANHO_MAXIMO + " caracteres";
+	
+	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
+	public static final String PERIODO_INVALIDO = "Periodo invalido";
+	public static final String NOME_OBRIGATORIO = "Nome obrigatorio";
+	public static final String NOME_EM_BRANCO = "Nome nao pode ser em branco";
+	public static final String PERIODO_OBRIGATORIO = "Periodo obrigatorio";
+	public static final String FALHA_INCLUSAO = "Nao foi possivel realizar a inclusao do registro";
+	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
+	public static final String AGENDA_NAO_ENCONTRADA_PARA_ATUALIZACAO = "Agenda nao encontrada para atualizacao";
+	public static final String AGENDA_COM_COMPROMISSOS = "Agenda possui compromissos e nao pode ser excluida";
+	public static final String FALHA_EXCLUSAO = "Erro ao excluir agenda";
+	
 	private AgendaDao dao;
 	private CompromissoDao compromissoDao = new CompromissoDao();
 	
 	public AgendaBusiness() {
 		this.dao = new AgendaDao();
+	}
+	
+	AgendaBusiness(AgendaDao dao, CompromissoDao compromissoDao) {
+		this.dao = dao;
+		this.compromissoDao = compromissoDao;
 	}
 	
 	/*1*/
@@ -43,7 +61,7 @@ public class AgendaBusiness {
 	                AgendaVo vo = dao.findByCodigo(codigo);
 	                if (vo != null) agendas.add(vo);
 	            } catch (NumberFormatException e) {
-	                throw new BusinessException("Foi informado um caracter no lugar de um numero");
+	                throw new BusinessException(FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO);
 	            }
 	            break;
 
@@ -55,10 +73,10 @@ public class AgendaBusiness {
 	            try {
 	                Integer cod = Integer.parseInt(filter.getBusca().trim());
 	                if (!PeriodoDisponivel.buscarPor(cod).isPresent())
-	                    throw new BusinessException("Periodo invalido");
+	                    throw new BusinessException(PERIODO_INVALIDO);
 	                agendas.addAll(dao.findAllByPeriodo(cod));
 	            } catch (NumberFormatException e) {
-	                throw new BusinessException("Periodo invalido");
+	                throw new BusinessException(PERIODO_INVALIDO);
 	            }
 	            break;
 	    }
@@ -69,20 +87,20 @@ public class AgendaBusiness {
 	/*2 - 3*/
 	private void validarENormalizar(AgendaVo agendaVo) {
 		if (agendaVo.getNome() == null)
-			throw new BusinessException("Nome nao pode ser nulo");
+			throw new BusinessException(NOME_OBRIGATORIO);
 		
 		String nome = agendaVo.getNome().trim();
 				
 		if(nome.isEmpty())
-				throw new BusinessException("Nome nao pode ser em branco");
+				throw new BusinessException(NOME_EM_BRANCO);
 		
 		if(nome.length() > NOME_TAMANHO_MAXIMO)
-			throw new BusinessException("Nome deve ter no maximo " + NOME_TAMANHO_MAXIMO + " caracteres");
+			throw new BusinessException(NOME_EXCEDEU_LIMITE);
 		
 		agendaVo.setNome(nome);
 		
 		if(!PeriodoDisponivel.buscarPor(agendaVo.getPeriodoDisponivel()).isPresent())
-			throw new BusinessException("Periodo obrigatorio");
+			throw new BusinessException(PERIODO_OBRIGATORIO);
 	}
 	
 	public void salvarAgenda(AgendaVo agendaVo) {
@@ -91,7 +109,7 @@ public class AgendaBusiness {
 		try {
 			dao.insertAgenda(agendaVo);
 		} catch (Exception e) {
-			throw new BusinessException("Nao foi possivel realizar a inclusao do registro");
+			throw new BusinessException(FALHA_INCLUSAO);
 		}
 		
 	}	
@@ -104,23 +122,23 @@ public class AgendaBusiness {
 	    try {
 	        linhas = dao.updateAgenda(agendaVo);
 	    } catch (Exception e) {
-	        throw new BusinessException("Nao foi possivel realizar a edicao do registro");
+	        throw new BusinessException(FALHA_EDICAO);
 	    }
 
 	    if (linhas == 0)
-	        throw new BusinessException("Agenda nao encontrada para atualizacao");
+	        throw new BusinessException(AGENDA_NAO_ENCONTRADA_PARA_ATUALIZACAO);
 	}
 	/*2 - 3*/
 	
 	/*4*/
 	public void excluirAgenda(Long codigo) {
 		if (compromissoDao.existePorAgenda(codigo))
-		    throw new BusinessException("Agenda possui compromissos e nao pode ser excluida");
+		    throw new BusinessException(AGENDA_COM_COMPROMISSOS);
 		
 		try {
 			dao.deleteAgenda(codigo);
 		}catch (Exception e) {
-			throw new BusinessException("Erro ao excluir agenda");
+			throw new BusinessException(FALHA_EXCLUSAO);
 		}
 	}
 	/*4*/
