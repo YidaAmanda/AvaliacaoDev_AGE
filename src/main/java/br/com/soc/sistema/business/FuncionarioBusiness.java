@@ -24,7 +24,11 @@ public class FuncionarioBusiness {
 	private FuncionarioDao dao;
 	
 	public FuncionarioBusiness() {
-		this.dao = new FuncionarioDao();
+		this(new FuncionarioDao());
+	}
+
+	FuncionarioBusiness(FuncionarioDao dao) {
+		this.dao = dao;
 	}
 	
 	/*1*/

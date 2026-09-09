@@ -28,10 +28,10 @@ public class AgendaBusiness {
 	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
 	
 	private AgendaDao dao;
-	private CompromissoDao compromissoDao = new CompromissoDao();
-	
+	private CompromissoDao compromissoDao;
+
 	public AgendaBusiness() {
-		this.dao = new AgendaDao();
+		this(new AgendaDao(), new CompromissoDao());
 	}
 	
 	AgendaBusiness(AgendaDao dao, CompromissoDao compromissoDao) {

@@ -34,11 +34,11 @@ public class CompromissoBusiness {
 	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
 	
 	private CompromissoDao dao;
-	private AgendaBusiness agendaBusiness = new AgendaBusiness();
-	private FuncionarioBusiness funcionarioBusiness = new FuncionarioBusiness();
-	
+	private AgendaBusiness agendaBusiness;
+	private FuncionarioBusiness funcionarioBusiness;
+
 	public CompromissoBusiness() {
-		this.dao = new CompromissoDao();
+		this(new CompromissoDao(), new AgendaBusiness(), new FuncionarioBusiness());
 	}
 	
 	CompromissoBusiness(CompromissoDao dao, AgendaBusiness agendaBusiness, FuncionarioBusiness funcionarioBusiness) {

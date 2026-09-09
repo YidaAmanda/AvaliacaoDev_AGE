@@ -11,7 +11,15 @@ public class RelatorioBusiness {
 	public static final String DATAS_OBRIGATORIAS = "Informe a data inicial e a data final";
     public static final String DATA_INICIAL_POSTERIOR_A_FINAL = "A data inicial nao pode ser depois da data final";
 
-	private CompromissoDao dao = new CompromissoDao();
+    private CompromissoDao dao;
+
+    public RelatorioBusiness() {
+        this(new CompromissoDao());
+    }
+
+    RelatorioBusiness(CompromissoDao dao) {
+        this.dao = dao;
+    }
 
 	public List<CompromissoVo> filtrarPorPeriodo(LocalDate inicio, LocalDate fim) {
 		if (inicio == null || fim == null)
