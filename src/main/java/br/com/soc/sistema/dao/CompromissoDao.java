@@ -151,10 +151,10 @@ public class CompromissoDao extends Dao {
 	}
 	
 	public List<CompromissoVo> findAllByNomeAgenda(String nome){
-		String query = SELECT_BASE + "WHERE lower(a.nm_agenda) like lower(?)";
+		String query = SELECT_BASE + "WHERE " + semAcento("a.nm_agenda") + " LIKE " + semAcento("?") + " ESCAPE '\\'";
 		try (Connection con = getConexao();
 	    	 PreparedStatement ps = con.prepareStatement(query)) {
-			ps.setString(1, "%" + nome + "%");
+			ps.setString(1, "%" + escapeLike(nome) + "%");
 	    	try (ResultSet rs = ps.executeQuery()) {
 				return mapearLista(rs);
 	    	}
@@ -190,10 +190,10 @@ public class CompromissoDao extends Dao {
 	}
 	
 	public List<CompromissoVo> findAllByNomeFuncionario(String nome){
-		String query = SELECT_BASE + "WHERE lower(f.nm_funcionario) like lower(?)";
+		String query = SELECT_BASE + "WHERE " + semAcento("f.nm_funcionario") + " LIKE " + semAcento("?") + " ESCAPE '\\'";
 		try (Connection con = getConexao();
 	    	 PreparedStatement ps = con.prepareStatement(query)) {
-			ps.setString(1, "%" + nome + "%");
+			ps.setString(1, "%" + escapeLike(nome) + "%");
 	    	try (ResultSet rs = ps.executeQuery()) {
 				return mapearLista(rs);
 	    	}

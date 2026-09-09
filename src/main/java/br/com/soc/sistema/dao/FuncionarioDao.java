@@ -61,13 +61,14 @@ public class FuncionarioDao extends Dao {
 	
 	public List<FuncionarioVo> findAllByNome(String nome){
 		StringBuilder query = new StringBuilder("SELECT rowid id, nm_funcionario nome FROM funcionario ")
-								.append("WHERE lower(nm_funcionario) like lower(?)");
+										.append("WHERE ").append(semAcento("nm_funcionario"))
+										.append(" LIKE ").append(semAcento("?")).append(" ESCAPE '\\'");
 		
 		try(Connection con = getConexao();
 			PreparedStatement ps = con.prepareStatement(query.toString())){
 			int i = 1;
 			
-			ps.setString(i, "%"+nome+"%");
+			ps.setString(i, "%" + escapeLike(nome) + "%");
 			
 			try(ResultSet rs = ps.executeQuery()){
 				FuncionarioVo vo =  null;

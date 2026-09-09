@@ -7,9 +7,18 @@ import java.sql.SQLException;
 import br.com.soc.sistema.exception.TechnicalException;
 
 public abstract class Dao implements AutoCloseable{
-
 	private static boolean primeiraInicializacao = true;
 	private Connection con = null;
+	
+	public static String escapeLike(String text) {
+        return text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+    }
+	
+	protected static String semAcento(String expressaoSql) {
+        return "TRANSLATE(lower(" + expressaoSql + "), "
+             + "'áàâãäéèêëíìîïóòôõöúùûüç', "
+             + "'aaaaaeeeeiiiiooooouuuuc')";
+    }
 	
 	public Dao() {
 		conectar();

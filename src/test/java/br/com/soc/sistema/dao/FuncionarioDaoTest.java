@@ -21,7 +21,7 @@ public class FuncionarioDaoTest {
 
     @Test
     public void excluirFuncionarioApagaSeusCompromissos() {
-        String nome = "ZZ_Cascata_" + System.nanoTime();
+        String nome = "Cascata_" + System.nanoTime();
         FuncionarioVo novo = new FuncionarioVo();
         novo.setNome(nome);
         funcionarioDao.insertFuncionario(novo);
@@ -52,5 +52,42 @@ public class FuncionarioDaoTest {
     @Test
     public void findByCodigoInexistenteRetornaNull() {
         assertNull(funcionarioDao.findByCodigo(999999L));
+    }
+    
+    @Test
+    public void buscaPorNomeIgnoraAcentos() {
+        long marca = System.nanoTime();
+        String nomeComAcento = "João " + marca;
+
+        FuncionarioVo novo = new FuncionarioVo();
+        novo.setNome(nomeComAcento);
+        funcionarioDao.insertFuncionario(novo);
+
+        List<FuncionarioVo> achados = funcionarioDao.findAllByNome("joao " + marca);
+
+        assertEquals(1, achados.size());
+        assertEquals(nomeComAcento, achados.get(0).getNome());
+
+        funcionarioDao.deleteFuncionario(achados.get(0).getRowid());
+    }
+
+    @Test
+    public void buscaTrataPercentComoLiteral() {
+        long marca = System.nanoTime();
+        String comCuringa = "A%B " + marca;
+        String semCuringa = "AZZB " + marca;
+
+        FuncionarioVo f1 = new FuncionarioVo(); f1.setNome(comCuringa);
+        FuncionarioVo f2 = new FuncionarioVo(); f2.setNome(semCuringa);
+        funcionarioDao.insertFuncionario(f1);
+        funcionarioDao.insertFuncionario(f2);
+
+        List<FuncionarioVo> achados = funcionarioDao.findAllByNome("a%b " + marca);
+
+        assertEquals(1, achados.size());
+        assertEquals(comCuringa, achados.get(0).getNome());
+
+        for (FuncionarioVo vo : funcionarioDao.findAllByNome("" + marca))
+            funcionarioDao.deleteFuncionario(vo.getRowid());
     }
 }

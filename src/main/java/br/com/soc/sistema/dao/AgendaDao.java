@@ -62,13 +62,14 @@ public class AgendaDao extends Dao {
 	
 	public List<AgendaVo> findAllByNome(String nome){
 		StringBuilder query = new StringBuilder("SELECT rowid id, nm_agenda nome, prd_disponivel periodo FROM agenda ")
-								.append("WHERE lower(nm_agenda) like lower(?)");
+										.append("WHERE ").append(semAcento("nm_agenda"))
+										.append(" LIKE ").append(semAcento("?")).append(" ESCAPE '\\'");
 		
 		try(Connection con = getConexao();
 			PreparedStatement ps = con.prepareStatement(query.toString())){
 			int i = 1;
 			
-			ps.setString(i, "%"+nome+"%");
+			ps.setString(i, "%" + escapeLike(nome) + "%");
 			
 			try(ResultSet rs = ps.executeQuery()){
 				AgendaVo vo =  null;
