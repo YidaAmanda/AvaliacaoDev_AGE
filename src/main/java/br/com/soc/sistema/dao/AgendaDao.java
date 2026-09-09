@@ -11,6 +11,10 @@ import br.com.soc.sistema.exception.TechnicalException;
 import br.com.soc.sistema.vo.AgendaVo;
 
 public class AgendaDao extends Dao {
+	private static final String FALHA_CONSULTAR = "Falha ao consultar agendas";
+	private static final String FALHA_INSERIR = "Falha ao inserir agenda";
+	private static final String FALHA_EDITAR = "Falha ao editar agenda";
+	private static final String FALHA_EXCLUIR = "Falha ao excluir agenda";
 	
 	/*1*/
 	public List<AgendaVo> findAllAgendas(){
@@ -30,7 +34,7 @@ public class AgendaDao extends Dao {
 			}
 			return agendas;
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar agendas", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -56,7 +60,7 @@ public class AgendaDao extends Dao {
 				return vo;
 			}
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar agendas", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -85,7 +89,7 @@ public class AgendaDao extends Dao {
 				return agendas;
 			}
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar agendas", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -107,7 +111,7 @@ public class AgendaDao extends Dao {
 	            return agendas;
 	        }
 	    } catch (SQLException e) {
-	        throw new TechnicalException("Falha ao consultar agendas", e);
+	        throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	/*1*/
@@ -123,7 +127,7 @@ public class AgendaDao extends Dao {
 			ps.setInt(i++, agendaVo.getPeriodoDisponivel());
 			ps.executeUpdate();
 		}catch (SQLException e) {
-			throw new TechnicalException("Falha ao inserir agenda", e);
+			throw new TechnicalException(FALHA_INSERIR, e);
 		}
 	}
 	/*2*/
@@ -140,7 +144,7 @@ public class AgendaDao extends Dao {
 			ps.setLong(i++, agendaVo.getRowid());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao editar agenda", e);
+			throw new TechnicalException(FALHA_EDITAR, e);
 		}
 	}
 	/*3*/
@@ -155,7 +159,7 @@ public class AgendaDao extends Dao {
 			ps.setLong(i, codigo);
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao excluir agenda", e);
+			throw new TechnicalException(FALHA_EXCLUIR, e);
 		}
 	}
 	/*4*/

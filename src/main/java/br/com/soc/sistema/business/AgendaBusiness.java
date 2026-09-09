@@ -25,6 +25,7 @@ public class AgendaBusiness {
 	public static final String AGENDA_NAO_ENCONTRADA_PARA_ATUALIZACAO = "Agenda nao encontrada para atualizacao";
 	public static final String AGENDA_COM_COMPROMISSOS = "Agenda possui compromissos e nao pode ser excluida";
 	public static final String FALHA_EXCLUSAO = "Erro ao excluir agenda";
+	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
 	
 	private AgendaDao dao;
 	private CompromissoDao compromissoDao = new CompromissoDao();
@@ -44,6 +45,9 @@ public class AgendaBusiness {
 	}
 	
 	public AgendaVo buscarAgendaPor(Long codigo) {
+		if (codigo == null)
+	        throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		return dao.findByCodigo(codigo);
 	}
 	
@@ -132,6 +136,9 @@ public class AgendaBusiness {
 	
 	/*4*/
 	public void excluirAgenda(Long codigo) {
+		if (codigo == null)
+	        throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		if (compromissoDao.existePorAgenda(codigo))
 		    throw new BusinessException(AGENDA_COM_COMPROMISSOS);
 		

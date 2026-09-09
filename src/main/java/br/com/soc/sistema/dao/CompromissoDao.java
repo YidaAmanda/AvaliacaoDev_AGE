@@ -17,6 +17,13 @@ import br.com.soc.sistema.vo.AgendaVo;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class CompromissoDao extends Dao {
+	private static final String FALHA_CONSULTAR = "Falha ao consultar compromissos";
+	private static final String FALHA_INSERIR = "Falha ao inserir compromisso";
+	private static final String FALHA_EDITAR = "Falha ao editar compromisso";
+	private static final String FALHA_EXCLUIR = "Falha ao excluir compromisso";
+	private static final String FALHA_VERIFICAR_CONFLITO = "Falha ao verificar conflito de compromisso";
+	private static final String FALHA_VERIFICAR_AGENDA = "Falha ao verificar se ha compromissos na agenda";
+	
 	/*0*/
 	public boolean existeConflito(Long funcionarioId, LocalDate data, LocalTime hora, Long ignorarRowid) {
 	    StringBuilder query = new StringBuilder("SELECT COUNT(*) total FROM compromisso ")
@@ -33,7 +40,7 @@ public class CompromissoDao extends Dao {
 	            return rs.next() && rs.getInt("total") > 0;
 	        }
 	    } catch (SQLException e) {
-	        throw new TechnicalException("Falha ao verificar conflito de compromisso", e);
+	        throw new TechnicalException(FALHA_VERIFICAR_CONFLITO, e);
 	    }
 	}
 	
@@ -47,7 +54,7 @@ public class CompromissoDao extends Dao {
 	            return rs.next() && rs.getInt("total") > 0;
 	        }
 	    } catch (SQLException e) {
-	        throw new TechnicalException("Falha ao verificar se ha compromissos na agenda", e);
+	        throw new TechnicalException(FALHA_VERIFICAR_AGENDA, e);
 	    }
 	}
 	/*0*/
@@ -92,7 +99,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 			}
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao consultar compromissos", e);
+			throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -105,7 +112,7 @@ public class CompromissoDao extends Dao {
 	    		if (rs.next()) return montarCompromisso(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 		return null;
 	}
@@ -119,7 +126,7 @@ public class CompromissoDao extends Dao {
 	    		return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -133,7 +140,7 @@ public class CompromissoDao extends Dao {
 	    		return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -146,7 +153,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -159,7 +166,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -172,7 +179,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -185,7 +192,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	
@@ -198,7 +205,7 @@ public class CompromissoDao extends Dao {
 				return mapearLista(rs);
 	    	}
 	    } catch (SQLException e) {
-	    	throw new TechnicalException("Falha ao consultar compromissos", e);
+	    	throw new TechnicalException(FALHA_CONSULTAR, e);
 	    }
 	}
 	/*1*/
@@ -216,7 +223,7 @@ public class CompromissoDao extends Dao {
 			ps.setTime(i++, Time.valueOf(compromissoVo.getHora()));
 			ps.executeUpdate();
 		}catch (SQLException e) {
-			throw new TechnicalException("Falha ao inserir compromisso", e);
+			throw new TechnicalException(FALHA_INSERIR, e);
 		}
 	}
 	/*2*/
@@ -236,7 +243,7 @@ public class CompromissoDao extends Dao {
 			ps.setLong(i++, compromissoVo.getRowid());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao editar compromisso", e);
+			throw new TechnicalException(FALHA_EDITAR, e);
 		}
 	}
 	/*3*/
@@ -251,7 +258,7 @@ public class CompromissoDao extends Dao {
 			ps.setLong(i, codigo);
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao excluir compromisso", e);
+			throw new TechnicalException(FALHA_EXCLUIR, e);
 		}
 	}
 	/*4*/

@@ -31,6 +31,7 @@ public class CompromissoBusiness {
 	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
 	public static final String COMPROMISSO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Compromisso nao encontrado para atualizacao";
 	public static final String FALHA_EXCLUSAO = "Erro ao excluir compromisso";
+	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
 	
 	private CompromissoDao dao;
 	private AgendaBusiness agendaBusiness = new AgendaBusiness();
@@ -52,6 +53,9 @@ public class CompromissoBusiness {
 	}
 	
 	public CompromissoVo buscarCompromissoPor(Long codigo) {
+		if (codigo == null)
+	        throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		return dao.findByCodigo(codigo);
 	}
 	
@@ -194,6 +198,9 @@ public class CompromissoBusiness {
 	
 	/*4*/
 	public void excluirCompromisso(Long codigo) {
+		if (codigo == null)
+	        throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		try {
 			dao.deleteCompromisso(codigo);
 		}catch (Exception e) {

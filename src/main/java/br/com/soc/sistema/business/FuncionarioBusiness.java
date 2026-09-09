@@ -19,6 +19,7 @@ public class FuncionarioBusiness {
 	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
 	public static final String FUNCIONARIO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Funcionario nao encontrado para atualizacao";
 	public static final String FALHA_EXCLUSAO = "Erro ao excluir funcionario";
+	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
 	
 	private FuncionarioDao dao;
 	
@@ -32,6 +33,9 @@ public class FuncionarioBusiness {
 	}	
 	
 	public FuncionarioVo buscarFuncionarioPor(Long codigo) {
+		if (codigo == null)
+	        throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		return dao.findByCodigo(codigo);
 	}
 	
@@ -70,7 +74,7 @@ public class FuncionarioBusiness {
 		String nome = funcionarioVo.getNome().trim();
 				
 		if(nome.isEmpty())
-				throw new BusinessException(NOME_EM_BRANCO);
+			throw new BusinessException(NOME_EM_BRANCO);
 		
 		if(nome.length() > NOME_TAMANHO_MAXIMO)
 			throw new BusinessException(NOME_EXCEDEU_LIMITE);
@@ -107,6 +111,9 @@ public class FuncionarioBusiness {
 	
 	/*4*/
 	public void excluirFuncionario(Long codigo) {
+		if (codigo == null)
+			throw new BusinessException(CODIGO_OBRIGATORIO);
+		
 		try {
 			dao.deleteFuncionario(codigo);
 		}catch (Exception e) {

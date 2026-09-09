@@ -11,6 +11,10 @@ import br.com.soc.sistema.exception.TechnicalException;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioDao extends Dao {
+	private static final String FALHA_CONSULTAR = "Falha ao consultar funcionarios";
+	private static final String FALHA_INSERIR = "Falha ao inserir funcionario";
+	private static final String FALHA_EDITAR = "Falha ao editar funcionario";
+	private static final String FALHA_EXCLUIR = "Falha ao excluir funcionario e seus compromissos";
 	
 	/*1*/
 	public List<FuncionarioVo> findAllFuncionarios(){
@@ -30,7 +34,7 @@ public class FuncionarioDao extends Dao {
 			}
 			return funcionarios;
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar funcionarios", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -55,7 +59,7 @@ public class FuncionarioDao extends Dao {
 				return vo;
 			}
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar funcionarios", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	
@@ -84,7 +88,7 @@ public class FuncionarioDao extends Dao {
 				return funcionarios;
 			}
 		} catch (SQLException e) {
-		    throw new TechnicalException("Falha ao consultar funcionarios", e);
+		    throw new TechnicalException(FALHA_CONSULTAR, e);
 		}
 	}
 	/*1*/
@@ -99,7 +103,7 @@ public class FuncionarioDao extends Dao {
 			ps.setString(i++, funcionarioVo.getNome());
 			ps.executeUpdate();
 		}catch (SQLException e) {
-			throw new TechnicalException("Falha ao inserir funcionario", e);
+			throw new TechnicalException(FALHA_INSERIR, e);
 		}
 	}
 	/*2*/
@@ -115,17 +119,13 @@ public class FuncionarioDao extends Dao {
 			ps.setLong(i++, funcionarioVo.getRowid());
 			return ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException("Falha ao editar funcionario", e);
+			throw new TechnicalException(FALHA_EDITAR, e);
 		}
 	}
 	/*3*/
 	
 	/*4*/
 	public int deleteFuncionario(Long codigo) {
-	    if (codigo == null) {
-	        throw new TechnicalException("Codigo do funcionario nao informado");
-	    }
-
 	    String delComp = "DELETE FROM compromisso WHERE rowid_funcionario = ?";
 	    String delFunc = "DELETE FROM funcionario WHERE rowid = ?";
 
@@ -153,7 +153,7 @@ public class FuncionarioDao extends Dao {
 	        } catch (SQLException rollbackEx) {
 	            rollbackEx.printStackTrace();
 	        }
-	        throw new TechnicalException("Falha ao excluir funcionario e seus compromissos", e);
+	        throw new TechnicalException(FALHA_EXCLUIR, e);
 	    } finally {
 	        try {
 	            if (con != null) {
