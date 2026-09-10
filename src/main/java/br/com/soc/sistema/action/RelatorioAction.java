@@ -57,7 +57,7 @@ public class RelatorioAction extends Action {
     			return INPUT;
     		}
     		
-    		try (XSSFWorkbook wb = exporter.montarExcel(dados);
+    		try (XSSFWorkbook wb = exporter.montarExcel(dados, dataInicial, dataFinal);
     			 ByteArrayOutputStream out = new ByteArrayOutputStream()) {
     				wb.write(out);
     				arquivo = new ByteArrayInputStream(out.toByteArray());
