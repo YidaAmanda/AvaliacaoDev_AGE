@@ -9,7 +9,7 @@ import br.com.soc.sistema.vo.CompromissoVo;
 
 public class RelatorioBusiness {
 	public static final String DATAS_OBRIGATORIAS = "Informe a data inicial e a data final";
-    public static final String DATA_INICIAL_POSTERIOR_A_FINAL = "A data inicial nao pode ser depois da data final";
+    public static final String DATA_INICIAL_POSTERIOR_A_FINAL = "A data inicial não pode ser depois da data final";
 
     private CompromissoDao dao;
 

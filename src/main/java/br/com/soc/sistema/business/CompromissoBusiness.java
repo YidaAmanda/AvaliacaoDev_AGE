@@ -15,23 +15,23 @@ import br.com.soc.sistema.vo.FuncionarioVo;
 import br.com.soc.sistema.filter.CompromissoFilter;
 
 public class CompromissoBusiness {
-	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
-	public static final String PERIODO_INVALIDO = "Periodo invalido";
-	public static final String DATA_INVALIDA = "Data invalida";
-	public static final String FUNCIONARIO_OBRIGATORIO = "Funcionario obrigatorio";
-	public static final String AGENDA_OBRIGATORIA = "Agenda obrigatoria";
-	public static final String DATA_OBRIGATORIA = "Data obrigatoria";
-	public static final String HORA_OBRIGATORIA = "Hora obrigatoria";
-	public static final String AGENDA_NAO_ENCONTRADA = "Agenda nao encontrada";
-	public static final String FUNCIONARIO_NAO_ENCONTRADO = "Funcionario nao encontrado";
-	public static final String PERIODO_DA_AGENDA_INVALIDO = "Periodo da agenda invalido";
-	public static final String FUNCIONARIO_COM_CONFLITO = "Funcionario ja possui compromisso nesta data e horario";
-	public static final String DATA_NO_PASSADO = "Data/hora do compromisso nao pode estar no passado";
-	public static final String FALHA_INCLUSAO = "Nao foi possivel realizar a inclusao do registro";
-	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
-	public static final String COMPROMISSO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Compromisso nao encontrado para atualizacao";
+	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um número";
+	public static final String PERIODO_INVALIDO = "Período inválido";
+	public static final String DATA_INVALIDA = "Data inválida";
+	public static final String FUNCIONARIO_OBRIGATORIO = "Funcionário obrigatório";
+	public static final String AGENDA_OBRIGATORIA = "Agenda obrigatória";
+	public static final String DATA_OBRIGATORIA = "Data obrigatória";
+	public static final String HORA_OBRIGATORIA = "Hora obrigatória";
+	public static final String AGENDA_NAO_ENCONTRADA = "Agenda não encontrada";
+	public static final String FUNCIONARIO_NAO_ENCONTRADO = "Funcionário não encontrado";
+	public static final String PERIODO_DA_AGENDA_INVALIDO = "Período da agenda inválido";
+	public static final String FUNCIONARIO_COM_CONFLITO = "Funcionário ja possui compromisso nesta data e horário";
+	public static final String DATA_NO_PASSADO = "Data/hora do compromisso não pode estar no passado";
+	public static final String FALHA_INCLUSAO = "Não foi possível realizar a inclusão do registro";
+	public static final String FALHA_EDICAO = "Não foi possível realizar a edição do registro";
+	public static final String COMPROMISSO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Compromisso não encontrado para atualização";
 	public static final String FALHA_EXCLUSAO = "Erro ao excluir compromisso";
-	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
+	public static final String CODIGO_OBRIGATORIO = "Código obrigatório";
 	
 	private CompromissoDao dao;
 	private AgendaBusiness agendaBusiness;
@@ -129,7 +129,7 @@ public class CompromissoBusiness {
 	    return "Horario fora do periodo disponivel da agenda (" + periodo.getDescricao() + ")";
 	}
 	
-	private void validarENormalizar(CompromissoVo compromissoVo) {
+	private void validar(CompromissoVo compromissoVo) {
 		if (compromissoVo.getFuncionario().getRowid() == null)
 			throw new BusinessException(FUNCIONARIO_OBRIGATORIO);
 		
@@ -168,7 +168,7 @@ public class CompromissoBusiness {
 	}
 	
 	public void salvarCompromisso(CompromissoVo compromissoVo) {
-		validarENormalizar(compromissoVo);
+		validar(compromissoVo);
 		validarDataFutura(compromissoVo);
 		
 		try {
@@ -180,7 +180,7 @@ public class CompromissoBusiness {
 	}	
 	
 	public void atualizarCompromisso(CompromissoVo compromissoVo) {
-	    validarENormalizar(compromissoVo);
+	    validar(compromissoVo);
 
 	    int linhas;
 	    

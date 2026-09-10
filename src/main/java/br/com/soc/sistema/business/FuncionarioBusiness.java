@@ -10,16 +10,16 @@ import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioBusiness {
 	private static final int NOME_TAMANHO_MAXIMO = 255;
-	public static final String NOME_EXCEDEU_LIMITE = "Nome deve ter no maximo " + NOME_TAMANHO_MAXIMO + " caracteres";
+	public static final String NOME_EXCEDEU_LIMITE = "Nome deve ter no máximo " + NOME_TAMANHO_MAXIMO + " caracteres";
 	
-	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
-	public static final String NOME_OBRIGATORIO = "Nome obrigatorio";
-	public static final String NOME_EM_BRANCO = "Nome nao pode ser em branco";
-	public static final String FALHA_INCLUSAO = "Nao foi possivel realizar a inclusao do registro";
-	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
-	public static final String FUNCIONARIO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Funcionario nao encontrado para atualizacao";
-	public static final String FALHA_EXCLUSAO = "Erro ao excluir funcionario";
-	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
+	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um número";
+	public static final String NOME_OBRIGATORIO = "Nome obrigatório";
+	public static final String NOME_EM_BRANCO = "Nome não pode ser em branco";
+	public static final String FALHA_INCLUSAO = "Não foi possível realizar a inclusão do registro";
+	public static final String FALHA_EDICAO = "Não foi possível realizar a edição do registro";
+	public static final String FUNCIONARIO_NAO_ENCONTRADO_PARA_ATUALIZACAO = "Funcionário não encontrado para atualização";
+	public static final String FALHA_EXCLUSAO = "Erro ao excluir funcionário";
+	public static final String CODIGO_OBRIGATORIO = "Código obrigatório";
 	
 	private FuncionarioDao dao;
 	

@@ -51,6 +51,10 @@
 					</s:form>
 				</div>
 			</div>
+			
+			<div class="d-none d-print-block mb-3">
+				<p class="mb-0">Período: <s:property value="dataInicialFormatada"/> a <s:property value="dataFinalFormatada"/></p>
+			</div>
 
 			<div class="row">
 				<table class="table table-light table-striped align-middle">
@@ -71,9 +75,9 @@
 							<tr>
 								<td>${rowid}</td>
 								<td>${funcionario.rowid}</td>
-								<td>${funcionario.nome}</td>
+								<td><s:property value="funcionario.nome"/></td>
 								<td>${agenda.rowid}</td>
-								<td>${agenda.nome}</td>
+								<td><s:property value="agenda.nome"/></td>
 								<td>${agenda.descricaoPeriodo}</td>
 								<td>${dataFormatada}</td>
 								<td>${horaFormatada}</td>

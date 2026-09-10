@@ -13,19 +13,19 @@ import br.com.soc.sistema.infra.PeriodoDisponivel;
 
 public class AgendaBusiness {
 	private static final int NOME_TAMANHO_MAXIMO = 255;
-	public static final String NOME_EXCEDEU_LIMITE = "Nome deve ter no maximo " + NOME_TAMANHO_MAXIMO + " caracteres";
+	public static final String NOME_EXCEDEU_LIMITE = "Nome deve ter no máximo " + NOME_TAMANHO_MAXIMO + " caracteres";
 	
-	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um numero";
-	public static final String PERIODO_INVALIDO = "Periodo invalido";
-	public static final String NOME_OBRIGATORIO = "Nome obrigatorio";
-	public static final String NOME_EM_BRANCO = "Nome nao pode ser em branco";
-	public static final String PERIODO_OBRIGATORIO = "Periodo obrigatorio";
-	public static final String FALHA_INCLUSAO = "Nao foi possivel realizar a inclusao do registro";
-	public static final String FALHA_EDICAO = "Nao foi possivel realizar a edicao do registro";
-	public static final String AGENDA_NAO_ENCONTRADA_PARA_ATUALIZACAO = "Agenda nao encontrada para atualizacao";
-	public static final String AGENDA_COM_COMPROMISSOS = "Agenda possui compromissos e nao pode ser excluida";
+	public static final String FOI_INFORMADO_CARACTER_NO_LUGAR_DE_UM_NUMERO = "Foi informado um caracter no lugar de um número";
+	public static final String PERIODO_INVALIDO = "Período inválido";
+	public static final String NOME_OBRIGATORIO = "Nome obrigatório";
+	public static final String NOME_EM_BRANCO = "Nome não pode ser em branco";
+	public static final String PERIODO_OBRIGATORIO = "Período obrigatório";
+	public static final String FALHA_INCLUSAO = "Não foi possível realizar a inclusão do registro";
+	public static final String FALHA_EDICAO = "Não foi possível realizar a edição do registro";
+	public static final String AGENDA_NAO_ENCONTRADA_PARA_ATUALIZACAO = "Agenda não encontrada para atualização";
+	public static final String AGENDA_COM_COMPROMISSOS = "Agenda possui compromissos e não pode ser excluída";
 	public static final String FALHA_EXCLUSAO = "Erro ao excluir agenda";
-	public static final String CODIGO_OBRIGATORIO = "Codigo obrigatorio";
+	public static final String CODIGO_OBRIGATORIO = "Código obrigatório";
 	
 	private AgendaDao dao;
 	private CompromissoDao compromissoDao;

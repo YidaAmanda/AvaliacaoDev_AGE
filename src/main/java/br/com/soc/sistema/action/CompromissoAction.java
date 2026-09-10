@@ -20,12 +20,18 @@ public class CompromissoAction extends Action {
 
 	private List<CompromissoVo> compromissos = new ArrayList<>();
 	private CompromissoBusiness business = new CompromissoBusiness();
+	private FuncionarioBusiness funcionarioBusiness = new FuncionarioBusiness();
+	private AgendaBusiness agendaBusiness = new AgendaBusiness(); 
 	private CompromissoFilter filtrar = new CompromissoFilter();
 	private CompromissoVo compromissoVo = new CompromissoVo();
 	
 	/*1*/
-	public String todos() {
-		compromissos.addAll(business.trazerTodosOsCompromissos());	
+	public String todos() {	
+		try {
+			compromissos.addAll(business.trazerTodosOsCompromissos());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+		}
 
 		return SUCCESS;
 	}
@@ -41,7 +47,7 @@ public class CompromissoAction extends Action {
 	            addActionMessage(NENHUM_COMPROMISSO_ENCONTRADO);
 	        
 	        return SUCCESS;
-	    } catch (BusinessException e) {
+	    } catch (Exception e) {
 	        addActionError(e.getMessage());
 	    }
 		
@@ -125,11 +131,11 @@ public class CompromissoAction extends Action {
 	}
 	
 	public List<FuncionarioVo> getListaFuncionarios() {
-	    return new FuncionarioBusiness().trazerTodosOsFuncionarios();
+	    return funcionarioBusiness.trazerTodosOsFuncionarios();
 	}
 
 	public List<AgendaVo> getListaAgendas() {
-	    return new AgendaBusiness().trazerTodasAsAgendas();
+	    return agendaBusiness.trazerTodasAsAgendas();
 	}
 	
 	public List<CompromissoVo> getCompromissos() {

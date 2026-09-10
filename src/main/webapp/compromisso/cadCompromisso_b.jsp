@@ -79,8 +79,8 @@
 						<s:iterator value="compromissos" >
 							<tr>
 							    <td>${rowid}</td>
-							    <td>${funcionario.nome}</td>
-							    <td>${agenda.nome}</td>
+								<td><s:property value="funcionario.nome"/></td>
+								<td><s:property value="agenda.nome"/></td>
 								<td>${dataFormatada}</td>
 								<td>${horaFormatada}</td>
 							    <td class="text-end">

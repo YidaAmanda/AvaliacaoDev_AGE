@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.time.format.DateTimeFormatter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import br.com.soc.sistema.business.RelatorioBusiness;
@@ -16,9 +16,11 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.CompromissoVo;
 
 public class RelatorioAction extends Action {
-	public static final String NENHUM_COMPROMISSO_NO_PERIODO = "Nenhum compromisso encontrado no periodo informado";
-	public static final String SEM_DADOS_PARA_EXPORTAR = "Nao ha dados para exportar no periodo informado";
+	public static final String NENHUM_COMPROMISSO_NO_PERIODO = "Nenhum compromisso encontrado no período informado";
+	public static final String SEM_DADOS_PARA_EXPORTAR = "Não há dados para exportar no período informado";
 	public static final String FALHA_GERAR_EXCEL = "Falha ao gerar o arquivo Excel";
+	
+	private static final DateTimeFormatter BR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
 	private RelatorioBusiness business = new RelatorioBusiness();
 	private RelatorioExporter exporter = new RelatorioExporter();
@@ -27,7 +29,7 @@ public class RelatorioAction extends Action {
 	private LocalDate dataFinal;
 	private List<CompromissoVo> compromissos = new ArrayList<>();
 	private InputStream arquivo;
-
+	
 	public String abrir() {
 		return SUCCESS;
 	}
@@ -38,9 +40,10 @@ public class RelatorioAction extends Action {
 
 			if (compromissos.isEmpty())
 				addActionMessage(NENHUM_COMPROMISSO_NO_PERIODO);
-			} catch (BusinessException e) {
-				addActionError(e.getMessage());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
 		}
+		
 		return SUCCESS;
     }
 
@@ -71,6 +74,14 @@ public class RelatorioAction extends Action {
 	
 	public InputStream getArquivo() {
 		return arquivo;
+	}
+	
+	public String getDataInicialFormatada() {
+	    return dataInicial == null ? "" : dataInicial.format(BR);
+	}
+	
+	public String getDataFinalFormatada() {
+	    return dataFinal == null ? "" : dataFinal.format(BR);
 	}
 
 	public LocalDate getDataInicial() {

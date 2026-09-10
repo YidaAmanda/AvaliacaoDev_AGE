@@ -11,7 +11,7 @@ import br.com.soc.sistema.infra.Action;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioAction extends Action {
-	public static final String NENHUM_FUNCIONARIO_ENCONTRADO = "Nenhum funcionario encontrado";
+	public static final String NENHUM_FUNCIONARIO_ENCONTRADO = "Nenhum funcionário encontrado";
 	
 	private List<FuncionarioVo> funcionarios = new ArrayList<>();
 	private FuncionarioBusiness business = new FuncionarioBusiness();
@@ -20,7 +20,11 @@ public class FuncionarioAction extends Action {
 	
 	/*1*/
 	public String todos() {
-		funcionarios.addAll(business.trazerTodosOsFuncionarios());	
+		try {
+			funcionarios.addAll(business.trazerTodosOsFuncionarios());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+		}
 
 		return SUCCESS;
 	}
@@ -36,7 +40,7 @@ public class FuncionarioAction extends Action {
 	            addActionMessage(NENHUM_FUNCIONARIO_ENCONTRADO);
 	        
 	        return SUCCESS;
-	    } catch (BusinessException e) {
+	    } catch (Exception e) {
 	        addActionError(e.getMessage());
 	    }
 		

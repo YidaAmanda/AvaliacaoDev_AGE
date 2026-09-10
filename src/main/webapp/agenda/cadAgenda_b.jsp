@@ -75,7 +75,7 @@
 						<s:iterator value="agendas" >
 							<tr>
 								<td>${rowid}</td>
-								<td>${nome}</td>
+								<td><s:property value="nome"/></td>
 								<td>${descricaoPeriodo}</td>
 								<td class="text-end">
 									<s:url action="editarAgendas" var="editar">

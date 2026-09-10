@@ -11,10 +11,10 @@ import br.com.soc.sistema.exception.TechnicalException;
 import br.com.soc.sistema.vo.FuncionarioVo;
 
 public class FuncionarioDao extends Dao {
-	private static final String FALHA_CONSULTAR = "Falha ao consultar funcionarios";
-	private static final String FALHA_INSERIR = "Falha ao inserir funcionario";
-	private static final String FALHA_EDITAR = "Falha ao editar funcionario";
-	private static final String FALHA_EXCLUIR = "Falha ao excluir funcionario e seus compromissos";
+	private static final String FALHA_CONSULTAR = "Falha ao consultar funcionários";
+	private static final String FALHA_INSERIR = "Falha ao inserir funcionário";
+	private static final String FALHA_EDITAR = "Falha ao editar funcionário";
+	private static final String FALHA_EXCLUIR = "Falha ao excluir funcionário e seus compromissos";
 	
 	/*1*/
 	public List<FuncionarioVo> findAllFuncionarios(){

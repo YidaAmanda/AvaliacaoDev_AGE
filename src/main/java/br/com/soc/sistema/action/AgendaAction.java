@@ -21,7 +21,11 @@ public class AgendaAction extends Action {
 	
 	/*1*/
 	public String todos() {
-		agendas.addAll(business.trazerTodasAsAgendas());	
+		try {
+			agendas.addAll(business.trazerTodasAsAgendas());
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+		}
 
 		return SUCCESS;
 	}
@@ -37,7 +41,7 @@ public class AgendaAction extends Action {
 	            addActionMessage(NENHUMA_AGENDA_ENCONTRADA);
 	        
 	        return SUCCESS;
-	    } catch (BusinessException e) {
+	    } catch (Exception e) {
 	        addActionError(e.getMessage());
 	    }
 		

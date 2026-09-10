@@ -22,7 +22,7 @@ public class CompromissoDao extends Dao {
 	private static final String FALHA_EDITAR = "Falha ao editar compromisso";
 	private static final String FALHA_EXCLUIR = "Falha ao excluir compromisso";
 	private static final String FALHA_VERIFICAR_CONFLITO = "Falha ao verificar conflito de compromisso";
-	private static final String FALHA_VERIFICAR_AGENDA = "Falha ao verificar se ha compromissos na agenda";
+	private static final String FALHA_VERIFICAR_AGENDA = "Falha ao verificar se há compromissos na agenda";
 	
 	/*0*/
 	public boolean existeConflito(Long funcionarioId, LocalDate data, LocalTime hora, Long ignorarRowid) {
